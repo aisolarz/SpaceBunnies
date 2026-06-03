@@ -4,6 +4,7 @@ class ScoreBox extends Phaser.GameObjects.Sprite {
 
 
             /* 
+            THIS IS NOT DONE YET AND IS NOT FUNCTIONALLLL
             I'm going to edit this a bit later to fix some stuff -Char
             
             This makes two types of score boxes 
