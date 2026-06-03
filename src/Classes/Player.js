@@ -20,7 +20,7 @@ class Player extends Phaser.GameObjects.Sprite {
         const purpleSpeed = 450
         const brownSpeed = 350
 
-        // Do not change these values willy-nilly unless bugfixing
+        // These values should only be changed if bug fixing 
         this.hurtTimer = 0; // Start hurt timer at 0
         this.frame = frame;
         scene.add.existing(this);
