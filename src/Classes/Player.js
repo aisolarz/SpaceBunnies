@@ -87,7 +87,9 @@ class Player extends Phaser.GameObjects.Sprite {
         }
 
         if (this.hurtTimer > 0) {
-            this.setFrame('bunny2_hurt.png');
+            if (this.frame === 'bunny2_stand.png') {this.setFrame('bunny2_hurt.png')}
+            if (this.frame === 'bunny1_stand.png') {this.setFrame('bunny1_hurt.png')}
+
         }
         else {
             this.setFrame(this.frame);
