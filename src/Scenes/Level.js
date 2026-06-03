@@ -24,6 +24,15 @@ class Level extends Phaser.Scene {
         console.log("P1:", gameSettings.player1Character);
         console.log("P2:", gameSettings.player2Character);
 
+        //Text that shows how many lives you have at the start
+        this.livesText = this.add.text(10, 35, "Lives: 3", {
+            fontSize: "20px",
+            fill: "#ffffff"
+
+        });
+
+
+
         // Player 1
         if(gameSettings.player1Character === "purple") {
 
@@ -81,6 +90,13 @@ class Level extends Phaser.Scene {
 
     }
 
+    //how many lives it starts off with. Feel free to change it! - Sharon
+    initGame(data = {}){
+        //this.gameOver = false;    <-----Im going to leave this as a comment for now - Sharon
+        this.lives = 3;
+
+    }
+
 
     update(time, delta) {
         let dt = delta / 1000 // Convert delta from miliseconds to seconds
@@ -91,6 +107,26 @@ class Level extends Phaser.Scene {
 
 
 
+
+
+    }
+
+    //when player takes damage it subtracts lives by one - Sharon
+    damagePlayer(){
+        this.lives--;
+        this.livesText.setText("Lives: " + this.lives);
+
+        if (this.lives <= 0){
+            //need the one line of code to end the game here - Sharon
+            //this.endGame();                      <-----Something like this
+        }
+    }
+
+    
+
+
+    //End Game Function - Sharon
+    endGame(){
 
 
     }
