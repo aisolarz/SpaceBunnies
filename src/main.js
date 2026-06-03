@@ -9,7 +9,7 @@ let config = {
     },
     width: 1024,
     height: 768,
-    scene: [Load, Level],
+    scene: [Load, Title, Select, Level],
 
     scale: {
         mode: Phaser.Scale.FIT, // Makes it so screen will scale with window size
@@ -17,6 +17,12 @@ let config = {
     } 
     
 }
+
+let gameSettings = {
+    numPlayers: 1,
+    player1Character: null,
+    player2Character: null
+};
 
 // Global variable to hold sprites
 var my = {sprite: {}};
