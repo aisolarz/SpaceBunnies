@@ -1,3 +1,5 @@
+//ScoreBox.js
+
 class ScoreBox extends Phaser.GameObjects.Sprite {
         constructor(scene, x, y, key, score = null, level = null) {
             super(scene, x, y, 'bigBox');

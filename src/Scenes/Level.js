@@ -1,3 +1,5 @@
+//Level.js
+
 class Level extends Phaser.Scene {
     constructor() {
         super("levelScene");
@@ -8,16 +10,6 @@ class Level extends Phaser.Scene {
     create() {
         // Create keys
         this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        
-        this.leftKey =
-            this.input.keyboard.addKey(
-                Phaser.Input.Keyboard.KeyCodes.LEFT
-            );
-
-        this.rightKey =
-            this.input.keyboard.addKey(
-                Phaser.Input.Keyboard.KeyCodes.RIGHT
-            );
 
 
         console.log("Players:", gameSettings.numPlayers);
@@ -31,6 +23,8 @@ class Level extends Phaser.Scene {
 
         });
 
+        this.bullets = [];
+
 
 
         // Player 1
@@ -42,7 +36,16 @@ class Level extends Phaser.Scene {
                 "jumper",
                 "bunny2_stand.png"
             );*/
-            this.player1 = new Player(this, 300, 500, 'bunny2_stand.png')
+            this.player1 = new Player(
+                this,
+                300,
+                500,
+                'bunny2_stand.png',
+                Phaser.Input.Keyboard.KeyCodes.A,
+                Phaser.Input.Keyboard.KeyCodes.D,
+                Phaser.Input.Keyboard.KeyCodes.W
+            );
+
         }
         else {
 
@@ -52,7 +55,15 @@ class Level extends Phaser.Scene {
                 "jumper",
                 "bunny1_stand.png"
             );*/
-            this.player1 = new Player(this, 300, 500, 'bunny1_stand.png')
+            this.player1 = new Player(
+                this,
+                300,
+                500,
+                'bunny1_stand.png',
+                Phaser.Input.Keyboard.KeyCodes.A,
+                Phaser.Input.Keyboard.KeyCodes.D,
+                Phaser.Input.Keyboard.KeyCodes.W
+            );
 
         }
 
@@ -67,7 +78,15 @@ class Level extends Phaser.Scene {
                     "jumper",
                     "bunny2_stand.png"
                 );*/
-                this.player2 = new Player(this, 700, 500, 'bunny2_stand.png')
+                this.player2 = new Player(
+                    this,
+                    700,
+                    500,
+                    'bunny2_stand.png',
+                    Phaser.Input.Keyboard.KeyCodes.LEFT,
+                    Phaser.Input.Keyboard.KeyCodes.RIGHT,
+                    Phaser.Input.Keyboard.KeyCodes.UP
+                );
 
             }
             else {
@@ -78,7 +97,16 @@ class Level extends Phaser.Scene {
                     "jumper",
                     "bunny1_stand.png"
                 );*/
-                this.player2 = new Player(this, 700, 500, 'bunny1_stand.png')
+                this.player2 = new Player(
+                    this,
+                    700,
+                    500,
+                    'bunny1_stand.png',
+                    Phaser.Input.Keyboard.KeyCodes.LEFT,
+                    Phaser.Input.Keyboard.KeyCodes.RIGHT,
+                    Phaser.Input.Keyboard.KeyCodes.UP
+
+                );
 
             }
         }
@@ -104,11 +132,12 @@ class Level extends Phaser.Scene {
         if (this.player1) {this.player1.update(time, delta)}
         if (this.player2) {this.player2.update(time, delta)}
 
+        for(let bullet of this.bullets) {
 
-
-
-
-
+            if(bullet.active) {
+                bullet.update(time, delta);
+            }
+        }
     }
 
     //when player takes damage it subtracts lives by one - Sharon
