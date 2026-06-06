@@ -3,6 +3,10 @@ class End extends Phaser.Scene {
         super("endScene");
     }
 
+    init(data) {
+        this.win = data.win;
+    }
+
     //I added this end scene. 
     // I added the option to either play the game again or quit and start from the title sceen - sharon
     //I will keep adding stuff to this!
@@ -13,7 +17,7 @@ class End extends Phaser.Scene {
         this.add.text(
             512,
             150,
-            "You Won!",
+            this.win ? "You Won!" : "You Lost!", //sorry changing it to you lose for now to test the level
             { fontSize: "48px" }
         ).setOrigin(0.5);
 
@@ -42,6 +46,8 @@ class End extends Phaser.Scene {
         this.input.keyboard.once('keydown-Q', () => {
             this.scene.start("titleScene");
         });
+
+    
 
 
     }

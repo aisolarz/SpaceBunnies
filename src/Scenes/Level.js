@@ -8,6 +8,8 @@ class Level extends Phaser.Scene {
 
 
     create() {
+
+
         // Create keys
         this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
@@ -25,6 +27,8 @@ class Level extends Phaser.Scene {
 
         this.bullets = [];
 
+        this.enemyBullets = [];
+
 
 
         // Player 1
@@ -39,7 +43,7 @@ class Level extends Phaser.Scene {
             this.player1 = new Player(
                 this,
                 300,
-                500,
+                650,
                 'bunny2_stand.png',
                 Phaser.Input.Keyboard.KeyCodes.A,
                 Phaser.Input.Keyboard.KeyCodes.D,
@@ -58,7 +62,7 @@ class Level extends Phaser.Scene {
             this.player1 = new Player(
                 this,
                 300,
-                500,
+                650,
                 'bunny1_stand.png',
                 Phaser.Input.Keyboard.KeyCodes.A,
                 Phaser.Input.Keyboard.KeyCodes.D,
@@ -81,7 +85,7 @@ class Level extends Phaser.Scene {
                 this.player2 = new Player(
                     this,
                     700,
-                    500,
+                    650,
                     'bunny2_stand.png',
                     Phaser.Input.Keyboard.KeyCodes.LEFT,
                     Phaser.Input.Keyboard.KeyCodes.RIGHT,
@@ -100,7 +104,7 @@ class Level extends Phaser.Scene {
                 this.player2 = new Player(
                     this,
                     700,
-                    500,
+                    650,
                     'bunny1_stand.png',
                     Phaser.Input.Keyboard.KeyCodes.LEFT,
                     Phaser.Input.Keyboard.KeyCodes.RIGHT,
@@ -111,19 +115,35 @@ class Level extends Phaser.Scene {
             }
         }
 
+        //spawns the enemy
+        this.enemies = [];
 
+        for(let i = 0; i < 5; i++) {
+
+            let enemy = new Enemy(
+                this,
+                200 + i * 120,
+                100,
+                "wingMan1.png"
+            );
+
+            this.enemies.push(enemy);
+        }
 
 
 
 
     }
 
+
+    /*
     //how many lives it starts off with. Feel free to change it! - Sharon
     initGame(data = {}){
         //this.gameOver = false;    <-----Im going to leave this as a comment for now - Sharon
         this.lives = 3;
 
     }
+        */
 
 
     update(time, delta) {
@@ -138,20 +158,89 @@ class Level extends Phaser.Scene {
                 bullet.update(time, delta);
             }
         }
-    }
 
-    //when player takes damage it subtracts lives by one - Sharon
-    damagePlayer(){
-        this.lives--;
-        this.livesText.setText("Lives: " + this.lives);
+        for(let bullet of this.enemyBullets) {
 
-        if (this.lives <= 0){
-            //need the one line of code to end the game here - Sharon
-            //this.endGame();                      <-----Something like this
+            if(bullet.active) {
+                bullet.update(time, delta);
+            }
+        }
+
+        for(let enemy of this.enemies) {
+
+            if(enemy.active) {
+                enemy.update(time, delta);
+            }
+        }
+
+    
+        //this is the collision stuff :3
+        for(let bullet of this.enemyBullets) {
+
+            if(!bullet.active) continue;
+
+            // Player 1
+            let p1Distance = Phaser.Math.Distance.Between(
+                bullet.x,
+                bullet.y,
+                this.player1.x,
+                this.player1.y
+            );
+
+            if(p1Distance < 35) {
+
+                bullet.destroy();
+
+                console.log("P1 before:", this.player1.lives);
+
+                this.damagePlayer(this.player1);
+
+                console.log("P1 after:", this.player1.lives);
+
+                continue;
+            }
+
+            // Player 2
+            if(this.player2) {
+
+                let p2Distance = Phaser.Math.Distance.Between(
+                    bullet.x,
+                    bullet.y,
+                    this.player2.x,
+                    this.player2.y
+                );
+
+                if(p2Distance < 35) {
+
+                    bullet.destroy();
+
+                    console.log("P2 before:", this.player2.lives);
+
+                    this.damagePlayer(this.player2);
+
+                    console.log("P2 after:", this.player2.lives);
+                }
+            }
         }
     }
 
-    
+    //when player takes damage it subtracts lives by one - Sharon
+        damagePlayer(player){
+
+        player.hurt();
+
+        this.livesText.setText(
+            "Lives: " + player.lives
+        );
+
+        if(player.lives <= 0){
+
+            this.scene.start("endScene", {
+                win: false
+            });
+        }
+    }
+
 
 
     //End Game Function - Sharon
@@ -160,5 +249,6 @@ class Level extends Phaser.Scene {
 
     }
 
+    
     
 }

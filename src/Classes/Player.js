@@ -16,9 +16,12 @@ class Player extends Phaser.GameObjects.Sprite {
         super(scene, x, y, 'jumper', frame); // args: scene, x, y, texture, frame
 
         // Feel free to change these values guys!!
-        this.playerHealth = 3;
+        this.lives = 3;
         this.hurtTimerCooldown = 2; // In seconds
-        this.setScale(0.5)
+        
+        //change the bunny size if you want
+        this.setScale(0.38)
+        
         const purpleSpeed = 450
         const brownSpeed = 350
 
@@ -63,7 +66,7 @@ class Player extends Phaser.GameObjects.Sprite {
     hurt() {
         if (this.hurtTimer <= 0) {
         // this.scene.sound.play('playerHurtSound');
-        this.playerHealth -= 1;
+        this.lives -= 1;
         // console.log('Health:', playerHealth);
         this.hurtTimer = this.hurtTimerCooldown; // Restart the timer
         }    
