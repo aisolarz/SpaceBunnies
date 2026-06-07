@@ -25,6 +25,7 @@ class Box extends Phaser.GameObjects.Sprite {
 
         // TODO for Char, fix issue where second choice box takes two spacebar clicks to clear instead of one
         // Fix spacing on lines reaching end of box -Char
+        // Fix bug with box 2.2 on level 2 not switching to next level when dialogue done
 
            
             this.next1 = next1;
@@ -65,7 +66,7 @@ class Box extends Phaser.GameObjects.Sprite {
                 fill: '#FFFFFF'
             });     
 
-            this.choice1Text = this.scene.add.text(this.x - 220, this.y + 60, this.choice1, {
+            this.choice1Text = this.scene.add.text(this.x - 220, this.y + 65, this.choice1, {
                 fontSize: '20px',
                 fill: '#ffee8e'
             });

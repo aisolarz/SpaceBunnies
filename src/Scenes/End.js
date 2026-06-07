@@ -118,18 +118,34 @@ class End extends Phaser.Scene {
 
 
 
+                // Alien names to be used: Sharie, Amieelia
             if (this.level === 1) {
                 // Make boxes. Organized like "units" and "lessons" with the first number representing the choice tree
-                this.boxGroup['box0'] = new Box(this, 'box0', 'Kenney', 'aliens', 'shipGreen_manned.png', "Testing some dialogue! Thank you for defeating those\nmonsters! What's a bunny doing in space?", "I need to save my friend", "Why do you care?", 'box1.1', 'box2.1')
-                this.boxGroup['box1.1'] = new Box(this, 'box1.1', 'Kenney', 'aliens', 'shipGreen_manned.png', "I saw some monsters go deeper into space holding a\nbunny captive! That must be your friend!", "Thanks for the info! I gotta keep going", null, null, null, true)
-                this.boxGroup['box2.1'] = new Box(this, 'box2.1', 'Kenney', 'aliens', 'shipGreen_manned.png', "I'm sorry! I didn't mean to intrude. I spotted some\nmonsters go deeper into space with a bunny captive.\nStay safe out there!", "Sure", null, null, null, true)
+                this.boxGroup['box0'] = new Box(this, 'box0', 'Kenney', 'aliens', 'shipGreen_manned.png', "Testing some dialogue! Thank you for defeating those\nmonsters! What's a bunny doing in space?", "I need to save my friend", "None of your business", 'box1.1', 'box1.2')
+                this.boxGroup['box1.1'] = new Box(this, 'box1.1', 'Kenney', 'aliens', 'shipGreen_manned.png', "I spotted more monsters fly deeper into space holding a\nbunny captive! That must be your friend!", "Thanks for the info! I gotta keep going", null, null, null, true)
+                this.boxGroup['box1.2'] = new Box(this, 'box1.2', 'Kenney', 'aliens', 'shipGreen_manned.png', "I'm sorry! I didn't mean to intrude. I spotted more\nmonsters fly deeper into space holding a bunny\ncaptive. Stay safe out there!", "Sure", null, null, null, true)
 
                 // Hide later boxes
                 this.boxGroup['box1.1'].hideBox();
-                this.boxGroup['box2.1'].hideBox();
+                this.boxGroup['box1.2'].hideBox();
             }
             if (this.level === 2) {
                 this.alien.setFrame('shipPink_manned.png');
+
+                // Make boxes                                                                            
+                this.boxGroup['box0'] = new Box(this, 'box0', 'Charlie', 'aliens', 'shipPink_manned.png', "EEK! Another monster! ... You seem awfully fluffy\nfor a monster...", "I'm a bunny", "BOO!", 'box1.1', 'box1.2', false,'0xC6E0F0')
+                this.boxGroup['box1.1'] = new Box(this, 'box1.1', 'Charlie', 'aliens', 'shipPink_manned.png', "I'm not sure what a bunny is... but you seem friendly.\nPlease turn back while you can. With all these\nmonsters, it's not safe. The monsters get MEANER\nas you go deeper! Something even scarier is\nout there in the depths...", "What's out there?", "You're overreacting", 'box2.1', 'box2.2', false, '0xC6E0F0');
+                this.boxGroup['box2.2'] = new Box(this, 'box2.2', 'Charlie', 'aliens', 'shipPink_manned.png', "I'M NOT! You... aren't scared? Well...\nplease be careful.", null, null, null, null, true, false, '0xC6E0F0')
+                this.boxGroup['box2.1'] = new Box(this, 'box2.1', 'Charlie', 'aliens', 'shipPink_manned.png', "There's a SCARY evil alien who lives deep in space!\nI'm way too scared to fly any deeper,\nso I can't make it home now! It would be great\nif you could help...", "I won't let you down", null, null, null, true, '0xC6E0F0')
+                this.boxGroup['box1.2'] = new Box(this, 'box1.2', 'Charlie', 'aliens', 'shipPink_manned.png', "EEK!! HELP! You must be working for that EVIL alien!\nSTAY AWAY!", "If you say so", null, null, null, true, '0xC6E0F0')
+                // Hide later boxes
+                this.boxGroup['box1.1'].hideBox();
+                this.boxGroup['box1.2'].hideBox();
+                this.boxGroup['box2.1'].hideBox();
+                this.boxGroup['box2.2'].hideBox();
+
+
+
 
 
 
@@ -168,7 +184,7 @@ class End extends Phaser.Scene {
                     if (gameSettings.player2Character === 'brown') {this.player2 = this.add.sprite(632, 400, 'jumper', 'bunny1_hurt.png')}
                 }
 
-            this.cameras.main.setBackgroundColor("#0d0d26");
+            this.cameras.main.setBackgroundColor("#201d45");
             let vignette = this.cameras.main.filters.internal.addVignette();
             vignette.radius = 2;
 
@@ -235,7 +251,6 @@ class End extends Phaser.Scene {
 
     update(time, delta) {
 
-        console.log(this.dialogueFinished)
         for (const key in this.boxGroup) {
             this.boxGroup[key].update(time, delta)
         }
