@@ -9,7 +9,8 @@ class Level extends Phaser.Scene {
     Known bugs to be fixed
 
     * If you finish a level in two player mode, then quit and switch to 1 player mode, the ghost of the second player will remain and take damage
-
+    * Issue with box 1.2 in level 2 not finishing the dialogue tree
+    * Fix spacing on dialogue box text
 
 
 
