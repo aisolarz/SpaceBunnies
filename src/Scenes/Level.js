@@ -3,9 +3,23 @@
 class Level extends Phaser.Scene {
     constructor() {
         super("levelScene");
-
     }
 
+    /*
+    Known bugs to be fixed
+
+    * If you finish a level in two player mode, then quit and switch to 1 player mode, the ghost of the second player will remain and take damage
+
+
+
+
+    */
+
+
+    init(data) {
+            this.level = data.level
+        }
+    
 
     create() {
 
@@ -13,38 +27,36 @@ class Level extends Phaser.Scene {
         // Create keys
         this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
-
         console.log("Players:", gameSettings.numPlayers);
         console.log("P1:", gameSettings.player1Character);
         console.log("P2:", gameSettings.player2Character);
 
         //Text that shows how many lives you have at the start
-        this.livesText = this.add.text(10, 35, "Lives: 3", {
+        this.livesText = this.add.text(10, 10, "Lives: 3", {
             fontSize: "20px",
             fill: "#ffffff"
-
         });
 
+        // Start variables 
         this.bullets = [];
-
         this.enemyBullets = [];
+        // Start level counter if it isn't already initialized
+        if (this.level === undefined) {
+            this.level = 1;
+        }
+
 
 
 
         // Player 1
         if(gameSettings.player1Character === "purple") {
 
-            /*this.player1 = this.add.sprite(
-                300,
-                500,
-                "jumper",
-                "bunny2_stand.png"
-            );*/
+            
             this.player1 = new Player(
                 this,
                 300,
                 650,
-                'bunny2_stand.png',
+                'player1_jetpack1',
                 Phaser.Input.Keyboard.KeyCodes.A,
                 Phaser.Input.Keyboard.KeyCodes.D,
                 Phaser.Input.Keyboard.KeyCodes.W
@@ -53,17 +65,12 @@ class Level extends Phaser.Scene {
         }
         else {
 
-            /*this.player1 = this.add.sprite(
-                300,
-                500,
-                "jumper",
-                "bunny1_stand.png"
-            );*/
+            
             this.player1 = new Player(
                 this,
                 300,
                 650,
-                'bunny1_stand.png',
+                'player2_jetpack1',
                 Phaser.Input.Keyboard.KeyCodes.A,
                 Phaser.Input.Keyboard.KeyCodes.D,
                 Phaser.Input.Keyboard.KeyCodes.W
@@ -76,17 +83,12 @@ class Level extends Phaser.Scene {
 
             if(gameSettings.player2Character === "purple") {
 
-                /*this.player2 = this.add.sprite(
-                    700,
-                    500,
-                    "jumper",
-                    "bunny2_stand.png"
-                );*/
+                
                 this.player2 = new Player(
                     this,
                     700,
                     650,
-                    'bunny2_stand.png',
+                    'player1_jetpack1',
                     Phaser.Input.Keyboard.KeyCodes.LEFT,
                     Phaser.Input.Keyboard.KeyCodes.RIGHT,
                     Phaser.Input.Keyboard.KeyCodes.UP
@@ -94,43 +96,62 @@ class Level extends Phaser.Scene {
 
             }
             else {
-
-                /*this.player2 = this.add.sprite(
-                    700,
-                    500,
-                    "jumper",
-                    "bunny1_stand.png"
-                );*/
                 this.player2 = new Player(
                     this,
                     700,
                     650,
-                    'bunny1_stand.png',
+                    'player2_jetpack1',
                     Phaser.Input.Keyboard.KeyCodes.LEFT,
                     Phaser.Input.Keyboard.KeyCodes.RIGHT,
                     Phaser.Input.Keyboard.KeyCodes.UP
-
                 );
-
             }
         }
 
         //spawns the enemy
         this.enemies = [];
 
-        for(let i = 0; i < 5; i++) {
 
-            let enemy = new Enemy(
-                this,
-                200 + i * 120,
-                100,
-                "wingMan1.png"
-            );
+        // ---------------------- LEVELS --------------------------
+        // Level 1
+        if (this.level === 1) {
+            this.background = '#323a6e'
+            this.cameras.main.setBackgroundColor(this.background);
 
-            this.enemies.push(enemy);
+            for(let i = 0; i < 5; i++) {
+
+                let enemy = new Enemy(
+                    this,
+                    200 + i * 120,
+                    100,
+                    "wingMan1.png"
+                );
+
+                this.enemies.push(enemy);
+            }
         }
 
 
+        // Just a placeholder amount of enemies to make sure level transitions works. 
+        if (this.level === 2) {
+            this.background = '#293164'
+            this.cameras.main.setBackgroundColor(this.background);
+            for(let i = 0; i < 2; i++) {
+
+                let enemy = new Enemy(
+                    this,
+                    200 + i * 120,
+                    100,
+                    "wingMan1.png"
+                );
+
+                this.enemies.push(enemy);
+            }
+        }
+
+        // ----------------------------------------------------------
+            
+    
 
 
     }
@@ -149,32 +170,43 @@ class Level extends Phaser.Scene {
     update(time, delta) {
         let dt = delta / 1000 // Convert delta from miliseconds to seconds
 
-        if (this.player1) {this.player1.update(time, delta)}
-        if (this.player2) {this.player2.update(time, delta)}
+        // Class updates
+        if (this.player1 && this.player1.active) {this.player1.update(time, delta)}
+        if (this.player2 && this.player2.active) {this.player2.update(time, delta)}
+
+        
 
         for(let bullet of this.bullets) {
-
             if(bullet.active) {
                 bullet.update(time, delta);
             }
         }
 
         for(let bullet of this.enemyBullets) {
-
             if(bullet.active) {
                 bullet.update(time, delta);
             }
         }
 
         for(let enemy of this.enemies) {
-
             if(enemy.active) {
                 enemy.update(time, delta);
             }
         }
 
+        // Collision (for enemies hit by player bullets) - Char
+        for (let bullet of this.bullets) {
+            for (let enemy of this.enemies) {
+                if (this.collides(enemy, bullet)) {
+                    bullet.y = -100 // Move bullet offscreen to be destroyed
+                    bullet.destroy();
+                    enemy.takeDamage();
+                }
+            }
+        }
+
     
-        //this is the collision stuff :3
+        //this is the collision stuff :3 (For player hit by enemy bullets)
         for(let bullet of this.enemyBullets) {
 
             if(!bullet.active) continue;
@@ -222,6 +254,18 @@ class Level extends Phaser.Scene {
                 }
             }
         }
+
+        // Check if all enemies are defeated to end level
+        if (this.enemies.length <= 0) {
+            this.scene.start("endScene", {
+                win: true,
+                level: this.level,
+                background: this.background
+            })
+        }
+
+
+
     }
 
     //when player takes damage it subtracts lives by one - Sharon
@@ -236,9 +280,19 @@ class Level extends Phaser.Scene {
         if(player.lives <= 0){
 
             this.scene.start("endScene", {
-                win: false
+                win: false,
+                level: this.level,
+                background: this.background
             });
         }
+    }
+
+    // Function to use for collisions, taken from Professor's example code
+    // Checks if the gap between two sprites is wider than the space their bodies take up. If it is, returns false
+    collides(a, b) {
+        if (Math.abs(a.x - b.x) > (a.displayWidth/2 + b.displayWidth/2)) return false; // If the gap between the sprites' centers is larger than the sprites' combined half-widths, it means there is empty air between them. Returns false
+        if (Math.abs(a.y - b.y) > (a.displayHeight/2 + b.displayHeight/2)) return false; // If the gap between the sprites' centers is larger than the sprites' combined half-heights, it means there is empty air between them. Returns false
+        return true;
     }
 
 

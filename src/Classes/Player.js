@@ -4,7 +4,7 @@ class Player extends Phaser.GameObjects.Sprite {
 
     /* Inputs:
     x, y: starting location
-    frame: will be either bunny2_stand.png or bunny1_stand.png
+    frame: will be either bunny2_jetpack1 or bunny1_jetpack1
     leftKey: key that's used to go left 
     rightKey: key that's used to go right
 
@@ -12,11 +12,11 @@ class Player extends Phaser.GameObjects.Sprite {
     hurt() run this function anytime player is hurt to subtract from player health, change texture to hurt, and start hurt cooldown
     */
     
-    constructor(scene, x, y, frame, leftKey, rightKey, shootKey) {
-        super(scene, x, y, 'jumper', frame); // args: scene, x, y, texture, frame
+    constructor(scene, x, y, textureKey, leftKey, rightKey, shootKey) {
+        super(scene, x, y, textureKey, null); // args: scene, x, y, texture, frame
 
-        // Feel free to change these values guys!!
-        this.lives = 3;
+        // Feel free to change these values guys!! -Char
+        this.lives = 1;
         this.hurtTimerCooldown = 2; // In seconds
         
         //change the bunny size if you want
@@ -29,27 +29,17 @@ class Player extends Phaser.GameObjects.Sprite {
         this.hurtTimer = 0; // Start hurt timer at 0
         this.shootCooldown = 0.25;
         this.shootTimer = 0;
-        this.frame = frame;
         scene.add.existing(this);
-        if (this.frame === 'bunny2_stand.png') {this.playerSpeed = purpleSpeed}
-        if (this.frame === 'bunny1_stand.png') {this.playerSpeed = brownSpeed}
+        this.textureKey = textureKey;
+        if (this.textureKey === 'player1_jetpack1') {this.playerSpeed = purpleSpeed}
+        if (this.textureKey === 'player2_jetpack1') {this.playerSpeed = brownSpeed}
 
-        // Animation for normal player. Left over from my other game's code
-        /*
-        if (!this.scene.anims.exists('playerAnims') && this.texture == 'player1') {
-            scene.anims.create({
-                    key: 'playerAnims', 
-                    frames: [
-                        {key: 'player1'}, 
-                        {key: 'player2'},
-                    ],
-                    frameRate: 8, 
-                    repeat: -1,
-                    yoyo: true
-        });
-        }
-        this.play('playerAnims')
-        */
+        //Play animations and set this.animKey
+        if (this.textureKey === 'player1_jetpack1') {this.animKey = 'player1Anims'}
+        if (this.textureKey === 'player2_jetpack1') {this.animKey = 'player2Anims'}
+        this.play(this.animKey)
+
+        
 
         // Create keys
         this.leftKey =
@@ -106,17 +96,15 @@ class Player extends Phaser.GameObjects.Sprite {
             );
 
             this.scene.bullets.push(bullet);
-
             this.shootTimer = this.shootCooldown;
         }
 
         if (this.hurtTimer > 0) {
-            if (this.frame === 'bunny2_stand.png') {this.setFrame('bunny2_hurt.png')}
-            if (this.frame === 'bunny1_stand.png') {this.setFrame('bunny1_hurt.png')}
-
+            if (this.textureKey === 'player1_jetpack1') {this.setTexture('player1_hurt')}
+            if (this.textureKey === 'player2_jetpack1') {this.setTexture('player2_hurt')}
         }
-        else {
-            this.setFrame(this.frame);
+        else if (this.anims && !this.anims.isPlaying) {
+            this.setTexture(this.textureKey);
         }
 
     }

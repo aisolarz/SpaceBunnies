@@ -9,8 +9,19 @@ class Load extends Phaser.Scene {
         this.load.setPath("./assets/"); // Makes it so you don't need to type in assets folder everytime you wanna load something in
 
         // Load images
-        this.load.image('bigBox', 'box_big.png');
-        this.load.image('smallBox', 'box_small.png');
+        this.load.image('rectangle', 'boxes/dark_rectang.png');
+        this.load.image('square', 'boxes/light_sqaure.png');
+        this.load.image('box', 'boxes/box.png');
+
+        // Load animation frames
+        this.load.image('player1_hurt', 'bunny2/bunny2_jetpack_hurt.png');
+        this.load.image('player1_jetpack1', 'bunny2/bunny2_jetpack1.png');
+        this.load.image('player1_jetpack2', 'bunny2/bunny2_jetpack2.png');
+
+        this.load.image('player2_hurt', 'bunny1/bunny1_jetpack_hurt.png');
+        this.load.image('player2_jetpack1', 'bunny1/bunny2_jetpack1.png');
+        this.load.image('player2_jetpack2', 'bunny1/bunny2_jetpack2.png');
+
 
         this.load.atlasXML(
             "jumper",
@@ -18,24 +29,24 @@ class Load extends Phaser.Scene {
             "spritesheet_jumper.xml"
         )
 
+        this.load.atlasXML(
+            "aliens",
+            "aliens/spritesheet_spaceships.png", 
+            "aliens/spritesheet_spaceships.xml"
+        )
+
+        this.load.atlasXML(
+            "lasers",
+            "aliens/spritesheet_lasers.png",
+            "aliens/spritesheet_lasers.xml",
+        )
+
 
 
 
 
         // Load audio
-        
-
-
-
-        
-
-
-
-
-
-
-
-
+    
 
 
 
@@ -53,10 +64,33 @@ class Load extends Phaser.Scene {
                 { key: "jumper", frame: "wingMan5.png" }
             ],
             frameRate: 10,
-            repeat: -1
+            repeat: -1,
+            yoyo: true
         });
 
-        // If we wanna create animations beforehand, they can be done here
+        //player animations
+        this.anims.create({
+            key: 'player1Anims',
+            frames: [
+                {key: 'player1_jetpack1'},
+                {key: 'player1_jetpack2'},
+            ],
+            frameRate: 10,
+            repeat: -1,
+        });
+
+
+         //player animations
+        this.anims.create({
+            key: 'player2Anims',
+            frames: [
+                {key: 'player2_jetpack1'},
+                {key: 'player2_jetpack2'},
+            ],
+            frameRate: 10,
+            repeat: -1,
+        });
+        
         
 
          this.scene.start("titleScene"); // Start next scene

@@ -6,6 +6,9 @@ class Select extends Phaser.Scene {
     }
 
     create() {
+
+
+
         this.menuState = "modeSelect";
         this.modeChoice = 1;
 
@@ -103,6 +106,17 @@ class Select extends Phaser.Scene {
                 Phaser.Input.Keyboard.KeyCodes.ENTER
             );
 
+        this.wKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        this.sKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        this.aKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        this.dKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+
+
+        this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+
+
+
         this.purpleBunny.setVisible(false);
         this.brownBunny.setVisible(false);
 
@@ -145,7 +159,7 @@ class Select extends Phaser.Scene {
 
         if(this.menuState === "modeSelect") {
 
-            if(Phaser.Input.Keyboard.JustDown(this.upKey)) {
+            if(Phaser.Input.Keyboard.JustDown(this.upKey) || Phaser.Input.Keyboard.JustDown(this.wKey)) {
 
                 this.modeChoice = 1;
 
@@ -156,7 +170,7 @@ class Select extends Phaser.Scene {
                 ]);
             }
 
-            if(Phaser.Input.Keyboard.JustDown(this.downKey)) {
+            if(Phaser.Input.Keyboard.JustDown(this.downKey) || Phaser.Input.Keyboard.JustDown(this.sKey)) {
 
                 this.modeChoice = 2;
 
@@ -167,7 +181,7 @@ class Select extends Phaser.Scene {
                 ]);
             }
 
-            if(Phaser.Input.Keyboard.JustDown(this.enterKey)) {
+            if(Phaser.Input.Keyboard.JustDown(this.enterKey) || Phaser.Input.Keyboard.JustDown(this.spaceKey)) {
 
                 gameSettings.numPlayers = this.modeChoice;
 
@@ -177,7 +191,7 @@ class Select extends Phaser.Scene {
             return;
         }
 
-        if (Phaser.Input.Keyboard.JustDown(this.leftKey)) {
+        if (Phaser.Input.Keyboard.JustDown(this.leftKey) || Phaser.Input.Keyboard.JustDown(this.aKey)) {
 
             this.selectedCharacter = "purple";
 
@@ -187,7 +201,7 @@ class Select extends Phaser.Scene {
             this.updateDescription();
         }
 
-        if (Phaser.Input.Keyboard.JustDown(this.rightKey)) {
+        if (Phaser.Input.Keyboard.JustDown(this.rightKey) || Phaser.Input.Keyboard.JustDown(this.dKey)) {
 
             this.selectedCharacter = "brown";
 
@@ -197,7 +211,7 @@ class Select extends Phaser.Scene {
             this.updateDescription();
         }
 
-        if (Phaser.Input.Keyboard.JustDown(this.enterKey)) {
+        if (Phaser.Input.Keyboard.JustDown(this.enterKey) || Phaser.Input.Keyboard.JustDown(this.spaceKey)) {
 
             // if its one player you only make one selection
             if(gameSettings.numPlayers === 1) {
@@ -205,7 +219,9 @@ class Select extends Phaser.Scene {
                 gameSettings.player1Character =
                     this.selectedCharacter;
 
-                this.scene.start("levelScene");
+                this.scene.start("levelScene", {
+                    level: 1
+                })
             }
 
             // if theres 2 players you make 2 selections with player one going first
@@ -232,7 +248,9 @@ class Select extends Phaser.Scene {
                     gameSettings.player2Character =
                         this.selectedCharacter;
 
-                    this.scene.start("levelScene");
+                    this.scene.start("levelScene", {
+                        level: 1
+                    });
                 }
             }
         }

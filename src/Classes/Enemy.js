@@ -46,6 +46,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
         this.health -= amount;
 
         if(this.health <= 0) {
+            this.scene.enemies.splice(this.scene.enemies.indexOf(this), 1) // Trying to fix "ghost object " bug by removing it from array when not needed  
             this.destroy();
         }
     }
