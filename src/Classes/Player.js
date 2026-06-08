@@ -56,7 +56,7 @@ class Player extends Phaser.GameObjects.Sprite {
     hurt() {
         if (this.hurtTimer <= 0) {
         // this.scene.sound.play('playerHurtSound');
-        this.lives -= 1;
+        //this.lives -= 1; ----- ok this is now handled by Level.js
         // console.log('Health:', playerHealth);
         this.hurtTimer = this.hurtTimerCooldown; // Restart the timer
         }    

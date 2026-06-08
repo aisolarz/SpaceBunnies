@@ -33,10 +33,20 @@ class Level extends Phaser.Scene {
         console.log("P2:", gameSettings.player2Character);
 
         //Text that shows how many lives you have at the start
-        this.livesText = this.add.text(10, 10, "Lives: 3", {
-            fontSize: "20px",
-            fill: "#ffffff"
-        });
+        this.teamLives =
+            gameSettings.numPlayers === 1
+            ? 3
+            : 6;
+
+        this.livesText = this.add.text(
+            10,
+            10,
+            "Lives: " + this.teamLives,
+            {
+                fontSize: "20px",
+                fill: "#ffffff"
+            }
+        );
 
         // Start variables 
         this.bullets = [];
@@ -62,6 +72,7 @@ class Level extends Phaser.Scene {
                 Phaser.Input.Keyboard.KeyCodes.D,
                 Phaser.Input.Keyboard.KeyCodes.W
             );
+            
 
         }
         else {
@@ -112,9 +123,15 @@ class Level extends Phaser.Scene {
         //spawns the enemy
         this.enemies = [];
 
+        //adding waves
+        this.currentWave = 1;
+        this.maxWaves = 3;
+
 
         // ---------------------- LEVELS --------------------------
+        
         // Level 1
+        /*
         if (this.level === 1) {
             this.background = '#323a6e'
             this.cameras.main.setBackgroundColor(this.background);
@@ -131,6 +148,10 @@ class Level extends Phaser.Scene {
                 this.enemies.push(enemy);
             }
         }
+        */
+
+        //creating waves
+        this.spawnWave(1);
 
 
         // Just a placeholder amount of enemies to make sure level transitions works. 
@@ -257,6 +278,7 @@ class Level extends Phaser.Scene {
         }
 
         // Check if all enemies are defeated to end level
+        /*
         if (this.enemies.length <= 0) {
             this.scene.start("endScene", {
                 win: true,
@@ -264,21 +286,48 @@ class Level extends Phaser.Scene {
                 background: this.background
             })
         }
+            */
+
+        //checks if the wave is cleared to move onto the next
+
+        if(this.enemies.length <= 0){
+
+            if(this.currentWave < this.maxWaves){
+
+                this.currentWave++;
+
+                this.spawnWave(this.currentWave);
+            }
+            else{
+
+                this.scene.start("endScene", {
+                    win: true,
+                    level: this.level,
+                    background: this.background
+                });
+            }
+        }
 
 
 
     }
 
     //when player takes damage it subtracts lives by one - Sharon
-        damagePlayer(player){
+    damagePlayer(player){
+
+        if(player.hurtTimer > 0){
+            return;
+        }
 
         player.hurt();
 
+        this.teamLives--;
+
         this.livesText.setText(
-            "Lives: " + player.lives
+            "Lives: " + this.teamLives
         );
 
-        if(player.lives <= 0){
+        if(this.teamLives <= 0){
 
             this.scene.start("endScene", {
                 win: false,
@@ -296,7 +345,23 @@ class Level extends Phaser.Scene {
         return true;
     }
 
+    //creating spawnWave
+    spawnWave(waveNumber){
 
+    for(let i = 0; i < 5 + waveNumber; i++){
+
+        let enemy = new Enemy(
+            this,
+            150 + (i % 6) * 120,
+            100 + Math.floor(i / 6) * 80,
+            "wingMan1.png",
+            150 + (waveNumber * 20),
+            1
+        );
+
+        this.enemies.push(enemy);
+    }
+}
 
     //End Game Function - Sharon
     endGame(){

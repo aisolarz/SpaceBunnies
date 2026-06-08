@@ -32,7 +32,7 @@ class Enemy extends Phaser.GameObjects.Sprite {
         this.direction = 1;
 
         //shooting
-        this.shootCooldown = 2;
+        this.shootCooldown = 3;
         this.shootTimer = 2;
 
         // this is only the animation for Wingman enemies
@@ -76,15 +76,64 @@ class Enemy extends Phaser.GameObjects.Sprite {
         //shoot
         if(this.shootTimer <= 0) {
 
-            let bullet = new EnemyBullet(
-                this.scene,
+            let target = this.scene.player1;
+
+            if(this.scene.player2){
+
+                let d1 = Phaser.Math.Distance.Between(
+                    this.x,
+                    this.y,
+                    this.scene.player1.x,
+                    this.scene.player1.y
+                );
+
+                let d2 = Phaser.Math.Distance.Between(
+                    this.x,
+                    this.y,
+                    this.scene.player2.x,
+                    this.scene.player2.y
+                );
+
+                if(d2 < d1){
+                    target = this.scene.player2;
+                }
+            }
+
+            let angle = Phaser.Math.Angle.Between(
                 this.x,
-                this.y + 20
+                this.y,
+                target.x,
+                target.y
             );
 
-            this.scene.enemyBullets.push(bullet);
+            let randomOffset =
+                Phaser.Math.FloatBetween(-0.4, 0.4);
 
-            this.shootTimer = this.shootCooldown;
+            angle += randomOffset;
+
+
+            let angles = [
+                angle - 0.15,
+                angle + 0.15
+            ];
+
+            for(let currentAngle of angles){
+
+                let velocityX = Math.cos(currentAngle) * 300;
+                let velocityY = Math.sin(currentAngle) * 300;
+
+                let bullet = new EnemyBullet(
+                    this.scene,
+                    this.x,
+                    this.y,
+                    velocityX,
+                    velocityY
+                );
+
+                this.scene.enemyBullets.push(bullet);
+
+                this.shootTimer = this.shootCooldown;
+            }
         }
     }
 }
