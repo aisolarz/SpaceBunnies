@@ -13,6 +13,15 @@ class Load extends Phaser.Scene {
         this.load.image('square', 'boxes/light_sqaure.png');
         this.load.image('box', 'boxes/box.png');
 
+        // Load audios
+        this.load.audio('clickingSound', 'sound/kenney_ui-audio/Audio/switch33.ogg');
+        this.load.audio('selectingSound', 'sound/kenney_sci-fi-sounds/Audio/forceField_000.ogg');
+        this.load.audio('defeatedSound', 'sound/kenney_sci-fi-sounds/Audio/laserRetro_002.ogg');
+        this.load.audio('levelSound', 'sound/kenney_sci-fi-sounds/Audio/spaceEngine_003.ogg');
+        this.load.audio('playerdefeatedSound', 'sound/kenney_interface-sounds/Audio/minimize_006.ogg');
+        
+
+
         // Load animation frames
         this.load.image('player1_hurt', 'bunny2/bunny2_jetpack_hurt.png');
         this.load.image('player1_jetpack1', 'bunny2/bunny2_jetpack1.png');
@@ -45,14 +54,13 @@ class Load extends Phaser.Scene {
 
 
 
-        // Load audio
-    
-
-
-
     }
 
     create() {
+
+        
+
+
         //animation stuff for the enemy
         this.anims.create({
             key: "wingmanFly",

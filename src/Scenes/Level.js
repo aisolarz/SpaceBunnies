@@ -32,6 +32,18 @@ class Level extends Phaser.Scene {
         console.log("P1:", gameSettings.player1Character);
         console.log("P2:", gameSettings.player2Character);
 
+        //create enemy destroyed sound - sharon
+        this.enemydefeatedSFX = this.sound.add("defeatedSound", {
+            volume: 0.1
+        });
+
+        //create player died sound - sharon
+        this.playerdefeatedSFX = this.sound.add("playerdefeatedSound", {
+            volume: 2
+        });
+
+        
+
         //Text that shows how many lives you have at the start
         this.teamLives =
             gameSettings.numPlayers === 1
@@ -223,6 +235,8 @@ class Level extends Phaser.Scene {
                     bullet.y = -100 // Move bullet offscreen to be destroyed
                     bullet.destroy();
                     enemy.takeDamage();
+                    //add sound here
+                    this.enemydefeatedSFX.play();
                 }
             }
         }
@@ -328,6 +342,9 @@ class Level extends Phaser.Scene {
         );
 
         if(this.teamLives <= 0){
+
+            //add sound dying
+            this.playerdefeatedSFX.play();
 
             this.scene.start("endScene", {
                 win: false,

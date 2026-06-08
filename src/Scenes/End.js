@@ -20,6 +20,18 @@ class End extends Phaser.Scene {
         this.dialogueFinished = false;
 
 
+        //Sound when level complete
+        this.levelmusicSFX = this.sound.add("levelSound", {
+            volume: 0.1,
+            loop: -1
+        });
+
+        //create clicking sound - sharon
+        this.clickSFX = this.sound.add("clickingSound", {
+            volume: 0.8
+        });
+
+
         // Congrats/Lose
         this.add.text(
             512,
@@ -120,6 +132,9 @@ class End extends Phaser.Scene {
 
                 // Alien names to be used: Sharie, Amieelia
             if (this.level === 1) {
+
+                
+
                 // Make boxes. Organized like "units" and "lessons" with the first number representing the choice tree
                 this.boxGroup['box0'] = new Box(this, 'box0', 'Kenney', 'aliens', 'shipGreen_manned.png', "Testing some dialogue! Thank you for defeating those\nmonsters! What's a bunny doing in space?", "I need to save my friend", "None of your business", 'box1.1', 'box1.2')
                 this.boxGroup['box1.1'] = new Box(this, 'box1.1', 'Kenney', 'aliens', 'shipGreen_manned.png', "I spotted more monsters fly deeper into space holding a\nbunny captive! That must be your friend!", "Thanks for the info! I gotta keep going", null, null, null, true)
@@ -128,8 +143,16 @@ class End extends Phaser.Scene {
                 // Hide later boxes
                 this.boxGroup['box1.1'].hideBox();
                 this.boxGroup['box1.2'].hideBox();
+
+
+                this.levelmusicSFX.play();
+                
+
             }
             if (this.level === 2) {
+
+                this.levelmusicSFX.play();
+
                 this.alien.setFrame('shipPink_manned.png');
 
                 // Make boxes                                                                            
@@ -228,6 +251,8 @@ class End extends Phaser.Scene {
 
 
             this.input.keyboard.once('keydown-SPACE', () => {
+                //add clicking sound
+                this.clickSFX.play();
                 this.scene.start("levelScene", {
                     level: 1 // Restart level to 1
                 });
@@ -235,6 +260,8 @@ class End extends Phaser.Scene {
 
 
             this.input.keyboard.once('keydown-Q', () => {
+                //add clicking sound
+                this.clickSFX.play();
                 this.scene.start("titleScene");
             });
         }
@@ -259,6 +286,7 @@ class End extends Phaser.Scene {
             this.scene.start('levelScene', {
                 level: this.level
             });
+            this.levelmusicSFX.stop();
         }
             
     }

@@ -7,6 +7,12 @@ class Title extends Phaser.Scene {
 
     create() {
 
+        //create clicking sound - sharon
+        this.clickSFX = this.sound.add("clickingSound", {
+            volume: 0.8
+        });
+       
+
         this.level = 1
 
         // Using this to test the boxes -Char
@@ -28,8 +34,15 @@ class Title extends Phaser.Scene {
         ).setOrigin(0.5);
 
         this.input.keyboard.once('keydown-SPACE', () => {
+
+            this.clickSFX.play();
+
             this.scene.start("selectScene");
+            
         });
+
+
+        
 
 
 

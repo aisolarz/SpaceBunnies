@@ -7,6 +7,15 @@ class Select extends Phaser.Scene {
 
     create() {
 
+        //create clicking sound
+        this.clickSFX = this.sound.add("clickingSound", {
+            volume: 0.8
+        });
+
+        //create selecting sound
+        this.selectSFX = this.sound.add("selectingSound", {
+            volume: 0.1
+        });
 
 
         this.menuState = "modeSelect";
@@ -161,6 +170,9 @@ class Select extends Phaser.Scene {
 
             if(Phaser.Input.Keyboard.JustDown(this.upKey) || Phaser.Input.Keyboard.JustDown(this.wKey)) {
 
+                //added
+                this.selectSFX.play();
+
                 this.modeChoice = 1;
 
                 this.modeText.setText([
@@ -171,6 +183,9 @@ class Select extends Phaser.Scene {
             }
 
             if(Phaser.Input.Keyboard.JustDown(this.downKey) || Phaser.Input.Keyboard.JustDown(this.sKey)) {
+
+                //added
+                this.selectSFX.play();
 
                 this.modeChoice = 2;
 
@@ -184,14 +199,20 @@ class Select extends Phaser.Scene {
             if(Phaser.Input.Keyboard.JustDown(this.enterKey) || Phaser.Input.Keyboard.JustDown(this.spaceKey)) {
 
                 gameSettings.numPlayers = this.modeChoice;
+                //added
+                this.clickSFX.play();
 
                 this.startCharacterSelect();
+
             }
 
             return;
         }
 
         if (Phaser.Input.Keyboard.JustDown(this.leftKey) || Phaser.Input.Keyboard.JustDown(this.aKey)) {
+
+            //added
+            this.selectSFX.play();
 
             this.selectedCharacter = "purple";
 
@@ -202,6 +223,9 @@ class Select extends Phaser.Scene {
         }
 
         if (Phaser.Input.Keyboard.JustDown(this.rightKey) || Phaser.Input.Keyboard.JustDown(this.dKey)) {
+
+            //added
+            this.selectSFX.play();
 
             this.selectedCharacter = "brown";
 
@@ -219,6 +243,9 @@ class Select extends Phaser.Scene {
                 gameSettings.player1Character =
                     this.selectedCharacter;
 
+                    //added
+                    this.clickSFX.play();
+
                 this.scene.start("levelScene", {
                     level: 1
                 })
@@ -231,6 +258,8 @@ class Select extends Phaser.Scene {
 
                     gameSettings.player1Character =
                         this.selectedCharacter;
+
+                    this.clickSFX.play();
 
                     this.selectionStage = 2;
 
@@ -247,6 +276,8 @@ class Select extends Phaser.Scene {
 
                     gameSettings.player2Character =
                         this.selectedCharacter;
+
+                    this.clickSFX.play();
 
                     this.scene.start("levelScene", {
                         level: 1
