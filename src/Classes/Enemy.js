@@ -8,7 +8,8 @@ class Enemy extends Phaser.GameObjects.Sprite {
         y,
         frame = "wingMan1.png",
         speed = 200,
-        health = 1
+        health = 1,
+        movementType = "normal"
     ) {
 
         super(
@@ -28,6 +29,13 @@ class Enemy extends Phaser.GameObjects.Sprite {
         this.health = health;
         this.speed = speed;
 
+        this.movementType = movementType;
+
+        this.startX = x;
+        this.startY = y;
+        this.phaseOffset =
+            Phaser.Math.FloatBetween(0, Math.PI * 2);
+
         //movement
         this.direction = 1;
 
@@ -35,9 +43,21 @@ class Enemy extends Phaser.GameObjects.Sprite {
         this.shootCooldown = 3;
         this.shootTimer = 2;
 
+        //enemies start off screen
+        this.entering = true;
+
+        //dive stuff for the new enemy in level 2
+        this.diveState = "waiting";
+        this.diveTimer = Phaser.Math.FloatBetween(0.5, 1.5);
+        this.targetX = x;
+
         // this is only the animation for Wingman enemies
         if(frame === "wingMan1.png") {
             this.play("wingmanFly");
+        }
+
+        if(frame === "flyMan_fly.png") {
+            this.play("flymanFly");
         }
     }
 
@@ -46,20 +66,123 @@ class Enemy extends Phaser.GameObjects.Sprite {
         this.health -= amount;
 
         if(this.health <= 0) {
-            this.scene.enemies.splice(this.scene.enemies.indexOf(this), 1) // Trying to fix "ghost object " bug by removing it from array when not needed  
+            
+            let index =
+                this.scene.enemies.indexOf(this);
+
+            if(index !== -1){
+                this.scene.enemies.splice(index, 1);
+            }
+
             this.destroy();
         }
     }
 
     update(time, delta) {
 
+        if(this.entering){
+            return;
+        }
+
         let dt = delta / 1000;
 
         //countdown shooting timer
         this.shootTimer -= dt;
 
-        //move side-to-side
-        this.x += this.speed * this.direction * dt;
+        //changing the movements. left and right were too boring....
+        if(this.movementType === "normal"){
+
+            this.x += this.speed * this.direction * dt;
+        }
+
+        else if(this.movementType === "sine"){
+
+            this.x =
+                this.startX +
+                Math.sin(time * 0.003 + this.phaseOffset) * 120;
+
+            this.y =
+                this.startY +
+                Math.sin(time * 0.002) * 40;
+        }
+
+        else if(this.movementType === "figure8"){
+
+            this.x =
+                this.startX +
+                Math.sin(time * 0.003 + this.phaseOffset) * 100;
+
+            this.y =
+                this.startY +
+                Math.sin(time * 0.006) * 50;
+        }
+
+        else if(this.movementType === "dive"){
+
+            this.diveTimer -= dt;
+
+            // waiting above
+            if(this.diveState === "waiting"){
+
+                if(this.diveTimer <= 0){
+
+                    let target = this.scene.player1;
+
+                    if(this.scene.player2){
+
+                        let d1 = Phaser.Math.Distance.Between(
+                            this.x,
+                            this.y,
+                            this.scene.player1.x,
+                            this.scene.player1.y
+                        );
+
+                        let d2 = Phaser.Math.Distance.Between(
+                            this.x,
+                            this.y,
+                            this.scene.player2.x,
+                            this.scene.player2.y
+                        );
+
+                        if(d2 < d1){
+                            target = this.scene.player2;
+                        }
+                    }
+
+                    // lock player position
+                    this.targetX = target.x;
+
+                    this.diveState = "diving";
+                }
+            }
+
+            // dive downward
+            else if(this.diveState === "diving"){
+
+                this.x += (this.targetX - this.x) * 3 * dt;
+                this.y += 900 * dt;
+
+                if(this.y > 700){
+                    this.diveState = "returning";
+                }
+            }
+
+            // fly back up
+            else if(this.diveState === "returning"){
+
+                this.y -= 600 * dt;
+
+                if(this.y <= this.startY){
+
+                    this.y = this.startY;
+
+                    this.diveState = "waiting";
+
+                    this.diveTimer =
+                        Phaser.Math.FloatBetween(0.75, 1.5);
+                }
+            }
+        }
 
         //right wall
         if(this.x > 950) {
@@ -73,8 +196,53 @@ class Enemy extends Phaser.GameObjects.Sprite {
             this.y += 40;
         }
 
+        if(
+            this.movementType === "dive" &&
+            this.diveState === "diving"
+        ){
+
+            let distance = Phaser.Math.Distance.Between(
+                this.x,
+                this.y,
+                this.scene.player1.x,
+                this.scene.player1.y
+            );
+
+            if(distance < 50){
+
+                this.scene.damagePlayer(
+                    this.scene.player1
+                );
+
+                this.diveState = "returning";
+            }
+
+            if(this.scene.player2){
+
+                let distance2 =
+                    Phaser.Math.Distance.Between(
+                        this.x,
+                        this.y,
+                        this.scene.player2.x,
+                        this.scene.player2.y
+                    );
+
+                if(distance2 < 50){
+
+                    this.scene.damagePlayer(
+                        this.scene.player2
+                    );
+
+                    this.diveState = "returning";
+                }
+            }
+        }
+
         //shoot
-        if(this.shootTimer <= 0) {
+        if(
+            this.shootTimer <= 0 &&
+            this.movementType !== "dive"
+        ) {
 
             let target = this.scene.player1;
 

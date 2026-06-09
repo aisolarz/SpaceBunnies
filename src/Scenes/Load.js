@@ -76,6 +76,16 @@ class Load extends Phaser.Scene {
             yoyo: true
         });
 
+        this.anims.create({
+            key: "flymanFly",
+            frames: [
+                { key: "jumper", frame: "flyMan_fly.png" },
+                { key: "jumper", frame: "flyMan_still_fly.png" }
+            ],
+            frameRate: 8,
+            repeat: -1
+        });
+
         //player animations
         this.anims.create({
             key: 'player1Anims',

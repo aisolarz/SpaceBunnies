@@ -137,7 +137,7 @@ class Level extends Phaser.Scene {
 
         //adding waves
         this.currentWave = 1;
-        this.maxWaves = 3;
+        this.maxWaves = 5;
 
 
         // ---------------------- LEVELS --------------------------
@@ -163,10 +163,17 @@ class Level extends Phaser.Scene {
         */
 
         //creating waves
-        this.spawnWave(1);
+        if(this.level === 1){
+
+            this.background = '#323a6e';
+            this.cameras.main.setBackgroundColor(this.background);
+
+            this.spawnWave(this.currentWave);
+        }
 
 
         // Just a placeholder amount of enemies to make sure level transitions works. 
+        /*
         if (this.level === 2) {
             this.background = '#293164'
             this.cameras.main.setBackgroundColor(this.background);
@@ -181,6 +188,18 @@ class Level extends Phaser.Scene {
 
                 this.enemies.push(enemy);
             }
+        }
+            */
+
+        if (this.level === 2) {
+
+            this.background = '#293164';
+            this.cameras.main.setBackgroundColor(this.background);
+
+            this.currentWave = 1;
+            this.maxWaves = 5;
+
+            this.spawnWave(this.currentWave);
         }
 
         // ----------------------------------------------------------
@@ -230,13 +249,16 @@ class Level extends Phaser.Scene {
 
         // Collision (for enemies hit by player bullets) - Char
         for (let bullet of this.bullets) {
+            if(!bullet.active) continue;
+            
             for (let enemy of this.enemies) {
-                if (this.collides(enemy, bullet)) {
-                    bullet.y = -100 // Move bullet offscreen to be destroyed
+                if(!enemy.active) continue;
+
+                if(this.collides(enemy, bullet)) {
                     bullet.destroy();
                     enemy.takeDamage();
-                    //add sound here
                     this.enemydefeatedSFX.play();
+                    break;
                 }
             }
         }
@@ -303,6 +325,13 @@ class Level extends Phaser.Scene {
             */
 
         //checks if the wave is cleared to move onto the next
+        //checking if it spawns all of the enemies
+        console.log(
+            "Wave:",
+            this.currentWave,
+            "Enemies:",
+            this.enemies.length
+        );
 
         if(this.enemies.length <= 0){
 
@@ -365,20 +394,287 @@ class Level extends Phaser.Scene {
     //creating spawnWave
     spawnWave(waveNumber){
 
-    for(let i = 0; i < 5 + waveNumber; i++){
+        if(this.level === 2){
 
-        let enemy = new Enemy(
-            this,
-            150 + (i % 6) * 120,
-            100 + Math.floor(i / 6) * 80,
-            "wingMan1.png",
-            150 + (waveNumber * 20),
-            1
+            this.spawnLevel2Wave(waveNumber);
+            return;
+        }
+
+        let positions = [];
+
+        // WAVE 1
+        if(waveNumber === 1){
+
+            positions = [
+                {x:200, y:100},
+                {x:320, y:100},
+                {x:440, y:100},
+                {x:560, y:100},
+                {x:680, y:100}
+            ];
+        }
+
+        // WAVE 2
+        else if(waveNumber === 2){
+
+            positions = [
+                {x:150, y:100},
+                {x:300, y:100},
+                {x:450, y:100},
+                {x:600, y:100},
+                {x:750, y:100},
+
+                {x:225, y:180},
+                {x:375, y:180},
+                {x:525, y:180},
+                {x:675, y:180}
+            ];
+        }
+
+        // WAVE 3 (V shape)
+        else if(waveNumber === 3){
+
+            positions = [
+                {x:512, y:80},
+
+                {x:420, y:140},
+                {x:604, y:140},
+
+                {x:330, y:220},
+                {x:694, y:220},
+
+                {x:240, y:300},
+                {x:784, y:300},
+
+                {x:512, y:300}
+            ];
+        }
+
+        // WAVE 4 (wide wall)
+        else if(waveNumber === 4){
+
+            positions = [
+                {x:120, y:100},
+                {x:240, y:100},
+                {x:360, y:100},
+                {x:480, y:100},
+                {x:600, y:100},
+                {x:720, y:100},
+                {x:840, y:100},
+
+                {x:180, y:200},
+                {x:300, y:200},
+                {x:420, y:200},
+                {x:540, y:200},
+                {x:660, y:200},
+                {x:780, y:200}
+            ];
+        }
+
+        // WAVE 5 (final formation)
+        else if(waveNumber === 5){
+
+            positions = [
+                {x:150, y:100},
+                {x:300, y:100},
+                {x:450, y:100},
+                {x:600, y:100},
+                {x:750, y:100},
+
+                {x:225, y:180},
+                {x:375, y:180},
+                {x:525, y:180},
+                {x:675, y:180},
+
+                {x:150, y:260},
+                {x:300, y:260},
+                {x:450, y:260},
+                {x:600, y:260},
+                {x:750, y:260},
+
+                {x:225, y:340},
+                {x:375, y:340},
+                {x:525, y:340},
+                {x:675, y:340}
+            ];
+        }
+
+
+        console.log(
+            "Spawning Wave",
+            waveNumber,
+            "Enemy Count:",
+            positions.length
         );
 
-        this.enemies.push(enemy);
+        for(let pos of positions){
+
+            let movementType = "normal";
+
+            if(waveNumber === 2){
+                movementType = "sine";
+            }
+
+            else if(waveNumber === 3){
+                movementType = "figure8";
+            }
+
+            else if(waveNumber === 4){
+
+                if(Math.random() < 0.5){
+                    movementType = "normal";
+                }
+                else{
+                    movementType = "sine";
+                }
+            }
+
+            else if(waveNumber === 5){
+
+                let randomChoice = Math.floor(Math.random() * 4);
+
+                if(randomChoice === 0){
+                    movementType = "normal";
+                }
+                else if(randomChoice === 1){
+                    movementType = "sine";
+                }
+                else{
+                    movementType = "figure8";
+                }
+            }
+
+            let enemy = new Enemy(
+                this,
+                pos.x,
+                -100,
+                "wingMan1.png",
+                150 + (waveNumber * 20),
+                1,
+                movementType
+            );
+
+            this.enemies.push(enemy);
+
+            this.tweens.add({
+                targets: enemy,
+                y: pos.y,
+                duration: 1000 + Math.random() * 500,
+                ease: 'Back.Out',
+
+                onComplete: () => {
+                    enemy.entering = false;
+
+                    enemy.startX = enemy.x;
+                    enemy.startY = enemy.y;
+                }
+            });
+        }
     }
-}
+
+    spawnLevel2Wave(waveNumber){
+
+        let enemies = [];
+
+        if(waveNumber === 1){
+
+            enemies = [
+                {x:200,y:100,frame:"wingMan1.png",move:"normal"},
+                {x:320,y:100,frame:"wingMan1.png",move:"normal"},
+                {x:440,y:100,frame:"wingMan1.png",move:"normal"},
+                {x:560,y:100,frame:"wingMan1.png",move:"normal"},
+                {x:680,y:100,frame:"wingMan1.png",move:"normal"},
+                {x:800,y:100,frame:"wingMan1.png",move:"normal"}
+            ];
+        }
+
+        else if(waveNumber === 2){
+
+            enemies = [
+                {x:200,y:100,frame:"wingMan1.png",move:"sine"},
+                {x:350,y:100,frame:"wingMan1.png",move:"sine"},
+                {x:500,y:100,frame:"wingMan1.png",move:"sine"},
+                {x:650,y:100,frame:"wingMan1.png",move:"sine"},
+
+                {x:250,y:250,frame:"flyMan_fly.png",move:"dive"},
+                {x:750,y:250,frame:"flyMan_fly.png",move:"dive"}
+            ];
+        }
+
+        else if(waveNumber === 3){
+
+            enemies = [
+                {x:200,y:100,frame:"flyMan_fly.png",move:"dive"},
+                {x:350,y:100,frame:"flyMan_fly.png",move:"dive"},
+                {x:500,y:100,frame:"flyMan_fly.png",move:"dive"},
+                {x:650,y:100,frame:"flyMan_fly.png",move:"dive"},
+                {x:800,y:100,frame:"flyMan_fly.png",move:"dive"},
+
+                {x:300,y:250,frame:"wingMan1.png",move:"figure8"},
+                {x:700,y:250,frame:"wingMan1.png",move:"figure8"}
+            ];
+        }
+
+        else if(waveNumber === 4){
+
+            enemies = [
+
+                {x:150,y:100,frame:"wingMan1.png",move:"figure8"},
+                {x:350,y:100,frame:"wingMan1.png",move:"figure8"},
+                {x:550,y:100,frame:"wingMan1.png",move:"figure8"},
+                {x:750,y:100,frame:"wingMan1.png",move:"figure8"},
+
+                {x:250,y:250,frame:"flyMan_fly.png",move:"dive"},
+                {x:500,y:250,frame:"flyMan_fly.png",move:"dive"},
+                {x:750,y:250,frame:"flyMan_fly.png",move:"dive"}
+            ];
+        }
+
+        else if(waveNumber === 5){
+
+            enemies = [
+
+                {x:150,y:100,frame:"flyMan_fly.png",move:"dive"},
+                {x:300,y:100,frame:"flyMan_fly.png",move:"dive"},
+                {x:450,y:100,frame:"flyMan_fly.png",move:"dive"},
+                {x:600,y:100,frame:"flyMan_fly.png",move:"dive"},
+                {x:750,y:100,frame:"flyMan_fly.png",move:"dive"},
+
+                {x:200,y:250,frame:"wingMan1.png",move:"sine"},
+                {x:400,y:250,frame:"wingMan1.png",move:"figure8"},
+                {x:600,y:250,frame:"wingMan1.png",move:"sine"},
+                {x:800,y:250,frame:"wingMan1.png",move:"figure8"}
+            ];
+        }
+
+        for(let e of enemies){
+
+            let enemy = new Enemy(
+                this,
+                e.x,
+                -100,
+                e.frame,
+                e.move === "dive" ? 250 : 200,
+                1,
+                e.move
+            );
+
+            this.enemies.push(enemy);
+
+            this.tweens.add({
+                targets: enemy,
+                y: e.y,
+                duration: 1200,
+                ease: 'Back.Out',
+
+                onComplete: () => {
+                    enemy.entering = false;
+                    enemy.startX = enemy.x;
+                    enemy.startY = enemy.y;
+                }
+            });
+        }
+    }
 
     //End Game Function - Sharon
     endGame(){
