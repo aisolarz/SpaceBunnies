@@ -42,6 +42,12 @@ class Level extends Phaser.Scene {
             volume: 2
         });
 
+        //background music
+        this.level1background = this.sound.add("level1background", {
+            loop: true,
+            volume: 0.5
+        });
+
         
 
         //Text that shows how many lives you have at the start
@@ -164,6 +170,8 @@ class Level extends Phaser.Scene {
 
         //creating waves
         if(this.level === 1){
+
+            this.level1background.play();
 
             this.background = '#323a6e';
             this.cameras.main.setBackgroundColor(this.background);
@@ -343,6 +351,8 @@ class Level extends Phaser.Scene {
             }
             else{
 
+                this.level1background.stop();
+
                 this.scene.start("endScene", {
                     win: true,
                     level: this.level,
@@ -374,6 +384,7 @@ class Level extends Phaser.Scene {
 
             //add sound dying
             this.playerdefeatedSFX.play();
+            this.level1background.stop();
 
             this.scene.start("endScene", {
                 win: false,

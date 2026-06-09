@@ -14,7 +14,7 @@ class Select extends Phaser.Scene {
 
         //create selecting sound
         this.selectSFX = this.sound.add("selectingSound", {
-            volume: 0.1
+            volume: 1
         });
 
 

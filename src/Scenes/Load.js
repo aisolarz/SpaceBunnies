@@ -19,6 +19,7 @@ class Load extends Phaser.Scene {
         this.load.audio('defeatedSound', 'sound/kenney_sci-fi-sounds/Audio/laserRetro_002.ogg');
         this.load.audio('levelSound', 'sound/kenney_sci-fi-sounds/Audio/spaceEngine_003.ogg');
         this.load.audio('playerdefeatedSound', 'sound/kenney_interface-sounds/Audio/minimize_006.ogg');
+        this.load.audio('level1background', 'sound/level1background.mp3');
         
 
 
