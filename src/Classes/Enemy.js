@@ -66,6 +66,12 @@ class Enemy extends Phaser.GameObjects.Sprite {
         this.health -= amount;
 
         if(this.health <= 0) {
+
+            new Explosion(
+                this.scene,
+                this.x,
+                this.y
+            );
             
             let index =
                 this.scene.enemies.indexOf(this);

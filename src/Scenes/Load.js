@@ -35,6 +35,8 @@ class Load extends Phaser.Scene {
         this.load.image('player2_jetpack2', 'bunny1/bunny2_jetpack2.png');
 
 
+
+
         this.load.atlasXML(
             "jumper",
             "spritesheet_jumper.png",
@@ -53,6 +55,51 @@ class Load extends Phaser.Scene {
             "aliens/spritesheet_lasers.xml",
         )
 
+        //explosion
+        this.load.image(
+            "explosion0",
+            "explosion/frame0000.png"
+        );
+
+        this.load.image(
+            "explosion1",
+            "explosion/frame0001.png"
+        );
+
+        this.load.image(
+            "explosion2",
+            "explosion/frame0002.png"
+        );
+
+        this.load.image(
+            "explosion3",
+            "explosion/frame0003.png"
+        );
+
+        this.load.image(
+            "explosion4",
+            "explosion/frame0004.png"
+        );
+
+        this.load.image(
+            "explosion5",
+            "explosion/frame0005.png"
+        );
+
+        this.load.image(
+            "explosion6",
+            "explosion/frame0006.png"
+        );
+
+        this.load.image(
+            "explosion7",
+            "explosion/frame0007.png"
+        );
+
+        this.load.image(
+            "explosion8",
+            "explosion/frame0008.png"
+        );
 
 
 
@@ -111,6 +158,30 @@ class Load extends Phaser.Scene {
             frameRate: 10,
             repeat: -1,
         });
+
+        this.anims.create({
+            key: "enemyExplosion",
+            frames: [
+
+                { key: "explosion0" },
+                { key: "explosion1" },
+                { key: "explosion2" },
+                { key: "explosion3" },
+                { key: "explosion4" },
+                { key: "explosion5" },
+                { key: "explosion6" },
+                { key: "explosion7" },
+                { key: "explosion8" }
+
+            ],
+
+            frameRate: 20,
+            repeat: 0
+        });
+
+        console.log(
+            this.textures.exists("explosion0")
+        );
         
         
 

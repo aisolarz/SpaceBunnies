@@ -71,6 +71,24 @@ class Level extends Phaser.Scene {
 
 
 
+        // starfield background
+        this.stars = [];
+
+        for(let i = 0; i < 60; i++){
+
+            let star = this.add.circle(
+                Phaser.Math.Between(0, 1024),
+                Phaser.Math.Between(0, 768),
+                Phaser.Math.Between(1, 3),
+                0xffffff
+            );
+
+            star.speed = Phaser.Math.Between(40, 120);
+
+            this.stars.push(star);
+        }
+        
+        
         // Start variables 
         this.bullets = [];
         this.enemyBullets = [];
@@ -237,6 +255,20 @@ class Level extends Phaser.Scene {
 
     update(time, delta) {
         let dt = delta / 1000 // Convert delta from miliseconds to seconds
+
+        // move stars
+
+        for(let star of this.stars){
+
+            star.y += star.speed * dt;
+
+            if(star.y > 768){
+
+                star.y = 0;
+                star.x = Phaser.Math.Between(0, 1024);
+            }
+        }
+
         this.powerUpTimer -= delta     
 
         // Class updates

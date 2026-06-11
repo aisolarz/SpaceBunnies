@@ -34,6 +34,31 @@ class Box extends Phaser.GameObjects.Sprite {
             this.y = 620;
             this.originalText = text;
             scene.add.existing(this); 
+
+            // create starfield once
+            if(!scene.stars){
+
+                scene.stars = [];
+
+                for(let i = 0; i < 80; i++){
+
+                    let star = scene.add.circle(
+                        Phaser.Math.Between(0, 1024),
+                        Phaser.Math.Between(0, 768),
+                        Phaser.Math.Between(1, 3),
+                        0xffffff
+                    );
+
+                    star.speed = Phaser.Math.Between(50, 200);
+
+                    // make stars stay behind dialogue
+                    star.setDepth(-100);
+
+                    scene.stars.push(star);
+                }
+            }
+
+
             this.name = name;
             this.choice1 = choice1;
             this.choice2 = choice2;
@@ -172,6 +197,23 @@ class Box extends Phaser.GameObjects.Sprite {
 
 
         update(time, delta) {
+
+            let dt = delta / 1000;
+
+            // move stars
+            if(this.scene.stars){
+
+                for(let star of this.scene.stars){
+
+                    star.y += star.speed * dt;
+
+                    if(star.y > 768){
+
+                        star.y = 0;
+                        star.x = Phaser.Math.Between(0, 1024);
+                    }
+                }
+            }
 
             if (!this.visible) {return}
 

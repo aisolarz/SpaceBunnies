@@ -27,6 +27,23 @@ class Select extends Phaser.Scene {
         // Background
         this.cameras.main.setBackgroundColor("#1a1a2e");
 
+        // starfield
+        this.stars = [];
+
+        for(let i = 0; i < 70; i++){
+
+            let star = this.add.circle(
+                Phaser.Math.Between(0,1024),
+                Phaser.Math.Between(0,768),
+                Phaser.Math.Between(1,3),
+                0xffffff
+            );
+
+            star.speed = Phaser.Math.Between(40,120);
+
+            this.stars.push(star);
+        }
+
         // Title
         this.titleText = this.add.text(
             512,
@@ -69,6 +86,22 @@ class Select extends Phaser.Scene {
             "jumper",
             "bunny1_stand.png"
         );
+
+        this.tweens.add({
+            targets: this.purpleBunny,
+            y: "-=15",
+            duration: 1500,
+            yoyo: true,
+            repeat: -1
+        });
+
+        this.tweens.add({
+            targets: this.brownBunny,
+            y: "-=15",
+            duration: 1800,
+            yoyo: true,
+            repeat: -1
+        });
 
         // boxes around bunny. for the selection
         this.purpleBox = this.add.rectangle(
@@ -165,6 +198,21 @@ class Select extends Phaser.Scene {
     }
 
     update() {
+
+        let dt = this.game.loop.delta / 1000;
+
+        // move stars
+
+        for(let star of this.stars){
+
+            star.y += star.speed * dt;
+
+            if(star.y > 768){
+
+                star.y = 0;
+                star.x = Phaser.Math.Between(0,1024);
+            }
+        }
 
         if(this.menuState === "modeSelect") {
 
