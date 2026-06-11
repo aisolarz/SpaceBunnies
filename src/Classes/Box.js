@@ -55,15 +55,24 @@ class Box extends Phaser.GameObjects.Sprite {
             }
             */
 
+            this.clickSFX = this.scene.sound.add("clickingSound", {
+                volume: 0.8
+            });
+
+
 
             this.nameText = this.scene.add.text(this.x - 220, this.y - 80, this.name + ':', {
                 fontSize: '28px', 
-                fill: '#FFFFFFFF'
+                fill: '#FFFFFFFF',
             });
 
             this.bodyText = this.scene.add.text(this.x - 220, this.y - 40, this.text, {
                 fontSize: '20px',
-                fill: '#FFFFFF'
+                fill: '#FFFFFF',
+                wordWrap: {
+                    width: 670, 
+                    useAdvancedWrap: true
+                }
             });     
 
             this.choice1Text = this.scene.add.text(this.x - 220, this.y + 65, this.choice1, {
@@ -164,6 +173,8 @@ class Box extends Phaser.GameObjects.Sprite {
 
         update(time, delta) {
 
+            if (!this.visible) {return}
+
             if (this.choice1 !== null) {
                 if (this.choice2 !== null) {
                     if (Phaser.Input.Keyboard.JustDown(this.wKey) || Phaser.Input.Keyboard.JustDown(this.upKey)) {
@@ -178,9 +189,8 @@ class Box extends Phaser.GameObjects.Sprite {
                     }
                 }
                 if (Phaser.Input.Keyboard.JustDown(this.spaceKey)) {
-                this.nextBox();
-               
-                
+                    this.clickSFX.play();
+                    this.nextBox();    
                 }  
             }
            

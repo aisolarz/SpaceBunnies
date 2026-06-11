@@ -137,10 +137,10 @@ class End extends Phaser.Scene {
 
                 
 
-                // Make boxes. Organized like "units" and "lessons" with the first number representing the choice tree
-                this.boxGroup['box0'] = new Box(this, 'box0', 'Kenney', 'aliens', 'shipGreen_manned.png', "Testing some dialogue! Thank you for defeating those\nmonsters! What's a bunny doing in space?", "I need to save my friend", "None of your business", 'box1.1', 'box1.2')
-                this.boxGroup['box1.1'] = new Box(this, 'box1.1', 'Kenney', 'aliens', 'shipGreen_manned.png', "I spotted more monsters fly deeper into space holding a\nbunny captive! That must be your friend!", "Thanks for the info! I gotta keep going", null, null, null, true)
-                this.boxGroup['box1.2'] = new Box(this, 'box1.2', 'Kenney', 'aliens', 'shipGreen_manned.png', "I'm sorry! I didn't mean to intrude. I spotted more\nmonsters fly deeper into space holding a bunny\ncaptive. Stay safe out there!", "Sure", null, null, null, true)
+                // Make boxes
+                this.boxGroup['box0'] = new Box(this, 'box0', 'Kenney', 'aliens', 'shipGreen_manned.png', "Thank you for defeating those monsters! What's a bunny doing in space?", "I need to save my friend", "None of your business", 'box1.1', 'box1.2')
+                this.boxGroup['box1.1'] = new Box(this, 'box1.1', 'Kenney', 'aliens', 'shipGreen_manned.png', "I spotted more monsters fly deeper into space holding a bunny captive! That must be your friend!", "Thanks for the info! I gotta keep going", null, null, null, true)
+                this.boxGroup['box1.2'] = new Box(this, 'box1.2', 'Kenney', 'aliens', 'shipGreen_manned.png', "I'm sorry! I didn't mean to intrude. I spotted more monsters fly deeper into space holding a bunny captive. Stay safe out there!", "Sure", null, null, null, true)
 
                 // Hide later boxes
                 this.boxGroup['box1.1'].hideBox();
@@ -158,41 +158,45 @@ class End extends Phaser.Scene {
                 this.alien.setFrame('shipPink_manned.png');
 
                 // Make boxes                                                                            
-                this.boxGroup['box0'] = new Box(this, 'box0', 'Charlie', 'aliens', 'shipPink_manned.png', "EEK! Another monster! ... You seem awfully fluffy\nfor a monster...", "I'm a bunny", "BOO!", 'box1.1', 'box1.2', false,'0xC6E0F0')
-                this.boxGroup['box1.1'] = new Box(this, 'box1.1', 'Charlie', 'aliens', 'shipPink_manned.png', "I'm not sure what a bunny is... but you seem friendly.\nPlease turn back while you can. With all these\nmonsters, it's not safe. The monsters get MEANER\nas you go deeper! Something even scarier is\nout there in the depths...", "What's out there?", "You're overreacting", 'box2.1', 'box2.2', false, '0xC6E0F0');
-                this.boxGroup['box2.2'] = new Box(this, 'box2.2', 'Charlie', 'aliens', 'shipPink_manned.png', "I'M NOT! You... aren't scared? Well...\nplease be careful.", null, null, null, null, true, false, '0xC6E0F0')
-                this.boxGroup['box2.1'] = new Box(this, 'box2.1', 'Charlie', 'aliens', 'shipPink_manned.png', "There's a SCARY evil alien who lives deep in space!\nI'm way too scared to fly any deeper,\nso I can't make it home now! It would be great\nif you could help...", "I won't let you down", null, null, null, true, '0xC6E0F0')
-                this.boxGroup['box1.2'] = new Box(this, 'box1.2', 'Charlie', 'aliens', 'shipPink_manned.png', "EEK!! HELP! You must be working for that EVIL alien!\nSTAY AWAY!", "If you say so", null, null, null, true, '0xC6E0F0')
+                this.boxGroup['box0'] = new Box(this, 'box0', 'Charlie', 'aliens', 'shipPink_manned.png', "EEK! Another monster! ... You seem awfully fluffy for a monster...", "I'm a bunny", "BOO!", 'box1.1', 'box1.2', false,'0xC6E0F0')
+                this.boxGroup['box1.1'] = new Box(this, 'box1.1', 'Charlie', 'aliens', 'shipPink_manned.png', "I'm not sure what a bunny is... but you seem friendly. Please turn back while you can. With all these\nmonsters, it's not safe. The monsters get MEANER as you go deeper! Something even scarier is out there in the depths...", "What's out there?", "You're overreacting", 'box2.1', 'box2.2', false, '0xC6E0F0');
+                this.boxGroup['box2.2'] = new Box(this, 'box2.2', 'Charlie', 'aliens', 'shipPink_manned.png', "I'M NOT! You... aren't scared? Well...please be careful.", null, null, null, null, true, false, '0xC6E0F0')
+                this.boxGroup['box2.1'] = new Box(this, 'box2.1', 'Charlie', 'aliens', 'shipPink_manned.png', "There's a SCARY evil alien who lives deep in space! I'm way too scared to fly any deeper, so I can't make it home now! It would be great if you could help...", "I won't let you down", null, null, null, true, '0xC6E0F0')
+                this.boxGroup['box1.2'] = new Box(this, 'box1.2', 'Charlie', 'aliens', 'shipPink_manned.png', "EEK!! HELP! You must be working for that EVIL alien! STAY AWAY!", "If you say so", null, null, null, true, '0xC6E0F0')
                 // Hide later boxes
                 this.boxGroup['box1.1'].hideBox();
                 this.boxGroup['box1.2'].hideBox();
                 this.boxGroup['box2.1'].hideBox();
                 this.boxGroup['box2.2'].hideBox();
+            }
 
+            if (this.level === 3) {
 
+                this.levelmusicSFX.play();
 
+                this.alien.setFrame('shipBlue_manned.png')
+
+                this.boxGroup['box0'] = new Box(this, 'box0', 'Amieelia', 'aliens', 'shipBlue_manned.png', "It's not worth going any further. The whole area is being taken over by a power-hungry alien. I gave up fighting a long time ago. You'll give up soon too.", "I'm going to do my best anyway!", "You're irritating me", "box1", "box2", false, '0xF0ECC6')
+                this.boxGroup['box1'] = new Box(this, 'box1', 'Aimeelia', 'aliens', 'shipBlue_manned.png', "You'll certainly need a miracle to make a difference here. I'm doubtful, but I wish you luck anyway.", "I know I can do it", null, null, null, true, '0xF0ECC6')
+                this.boxGroup['box2'] = new Box(this, 'box2', 'Aimeelia', 'aliens', 'shipBlue_manned.png', "Then leave! If that evil alien doesn't take you down, I might as well do it myself.", "Don't stand in my way", null, null, null, true, '0xF0ECC6')
+
+                this.boxGroup['box1'].hideBox();
+                this.boxGroup['box2'].hideBox();
 
 
 
 
             }
 
+
+
+
+
+
+
         }
+
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         //------------------------------ Lose scene ----------------------------
         if (this.win === false) {
@@ -271,12 +275,12 @@ class End extends Phaser.Scene {
         // Now that the above text printed the completed level, incrementing the level counter 
         this.level += 1
 
-
+    }
 
     
 
 
-    }
+    
 
     update(time, delta) {
 

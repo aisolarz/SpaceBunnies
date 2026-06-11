@@ -66,6 +66,11 @@ class Level extends Phaser.Scene {
             }
         );
 
+        // Start PowerUp Timer
+        this.powerUpTimer = Phaser.Math.Between(5000, 8000) // Feel free to change this to change how long it takes for powerups to start appearing. This does NOT impact how often they spawn. That's in the update
+
+
+
         // Start variables 
         this.bullets = [];
         this.enemyBullets = [];
@@ -73,6 +78,8 @@ class Level extends Phaser.Scene {
         if (this.level === undefined) {
             this.level = 1;
         }
+        
+        
 
 
 
@@ -230,11 +237,24 @@ class Level extends Phaser.Scene {
 
     update(time, delta) {
         let dt = delta / 1000 // Convert delta from miliseconds to seconds
+        this.powerUpTimer -= delta     
 
         // Class updates
         if (this.player1 && this.player1.active) {this.player1.update(time, delta)}
         if (this.player2 && this.player2.active) {this.player2.update(time, delta)}
+        if (this.powerUp && this.powerUp.active) {this.powerUp.update(time, delta)}
 
+
+         // PowerUp spawns
+        if (this.powerUpTimer < 0) {
+            let powerUpX = Phaser.Math.Between(50, 974)
+            let type = Phaser.Math.Between(1, 3); 
+            this.powerUp = new PowerUp(this, powerUpX, -10, type);
+
+            let timer = Phaser.Math.Between(8000, 20000) // Use this to change interval for how often powerups spawn
+            this.powerUpTimer = timer
+            
+        }
         
 
         for(let bullet of this.bullets) {
@@ -270,6 +290,19 @@ class Level extends Phaser.Scene {
                 }
             }
         }
+
+        // PowerUp Collision
+        if (this.powerUp && this.powerUp.active) {
+            if (this.collides(this.powerUp, this.player1)) {
+                this.powerUp.collect(this.player1);
+            }
+            if (this.powerUp && this.powerUp.active && this.player2) {
+                if (this.collides(this.powerUp, this.player2)) {
+                    this.powerUp.collect(this.player2);
+                }
+            }
+        }
+        
 
     
         //this is the collision stuff :3 (For player hit by enemy bullets)

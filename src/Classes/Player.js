@@ -51,13 +51,17 @@ class Player extends Phaser.GameObjects.Sprite {
         this.shootKey =
             scene.input.keyboard.addKey(shootKey);
 
+
+        this.playerHurt = this.scene.sound.add("playerHurt", {
+                volume: 0.8
+            });
+
     }
 
     hurt() {
         if (this.hurtTimer <= 0) {
-        // this.scene.sound.play('playerHurtSound');
+        this.playerHurt.play();
         //this.lives -= 1; ----- ok this is now handled by Level.js
-        // console.log('Health:', playerHealth);
         this.hurtTimer = this.hurtTimerCooldown; // Restart the timer
         }    
     }
@@ -84,7 +88,8 @@ class Player extends Phaser.GameObjects.Sprite {
         }
 
         if(
-            Phaser.Input.Keyboard.JustDown(this.shootKey)
+            // Phaser.Input.Keyboard.JustDown(this.shootKey)
+            this.shootKey.isDown 
             &&
             this.shootTimer <= 0
         ) {
