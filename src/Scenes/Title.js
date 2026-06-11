@@ -13,8 +13,7 @@ class Title extends Phaser.Scene {
         });
        
 
-        this.level = 3
-        // TODO Char this is to change level start
+        this.level = 1
 
         // Using this to test the boxes -Char
         // new Box(this, 'box', 'kenny', 'aliens', 'shipGreen_manned.png', 'testafejaweoifjaoewijfoaewjifjowaeij', 'choice1', 'choice2', null, null)

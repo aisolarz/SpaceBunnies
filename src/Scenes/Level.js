@@ -251,7 +251,7 @@ class Level extends Phaser.Scene {
             let type = Phaser.Math.Between(1, 3); 
             this.powerUp = new PowerUp(this, powerUpX, -10, type);
 
-            let timer = Phaser.Math.Between(8000, 20000) // Use this to change interval for how often powerups spawn
+            let timer = Phaser.Math.Between(15000, 25000) // Use this to change interval for how often powerups spawn
             this.powerUpTimer = timer
             
         }

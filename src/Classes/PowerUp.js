@@ -35,9 +35,9 @@ class PowerUp extends Phaser.GameObjects.Sprite {
     collect(player) {
         // life
         if (this.type === 1) {
-            this.teamLives += 1
+            this.scene.teamLives += 1
             this.scene.livesText.setText(
-                "Lives: " + this.teamLives
+                "Lives: " + this.scene.teamLives
             );
         }
 
