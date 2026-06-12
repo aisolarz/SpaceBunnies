@@ -65,7 +65,27 @@ class Enemy extends Phaser.GameObjects.Sprite {
 
         this.health -= amount;
 
+
+        //update boss heath text
+        if(this.isBoss && this.scene.bossHealthText.setText){
+            this.scene.bossHealthText.setText("Boss HP: " + this.health);
+        }
+
+        //Flash when hit
+        this.setTint('#802525');
+        this.scene.time.delayedCall(100, () => {
+            if(this.active){
+                this.clearTint();
+            }
+        });
+
+
         if(this.health <= 0) {
+
+            if(this.scene.bossHealthText){
+                this.scene.bossHealthText.destroy();
+                this.scene.bossHealthText = null;
+            }
 
             new Explosion(
                 this.scene,

@@ -505,6 +505,32 @@ class Level extends Phaser.Scene {
     //creating spawnWave
     spawnWave(waveNumber){
 
+
+        //level 3
+        if(this.level === 3 && waveNumber === 5){
+
+            let boss = new Enemy(this, 512, 150, 'spikeBall1.png', 100, 20, "normal");
+
+            boss.isBoss = true;
+            boss.setScale(0.5);
+            boss.entering = false;
+            boss.shootCooldown = 1;
+            this.enemies.push(boss);
+
+            //boss hp display
+            this.bossHealthText = this.add.text(850, 20, "Boss HP: " + boss.health, {
+                    fontSize: "24px",
+                    fill: "#ff0000"
+                }
+
+            );
+
+            return;
+        }
+
+
+
+
         if(this.level === 2){
 
             this.spawnLevel2Wave(waveNumber);
