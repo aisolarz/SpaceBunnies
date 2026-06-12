@@ -59,6 +59,14 @@ class Player extends Phaser.GameObjects.Sprite {
     }
 
     hurt() {
+        
+        this.setTint(0xff4f4f);
+        this.scene.time.delayedCall(100, () => {
+            if(this.active){
+                this.clearTint();
+            }
+        });
+
         if (this.hurtTimer <= 0) {
         this.playerHurt.play();
         //this.lives -= 1; ----- ok this is now handled by Level.js

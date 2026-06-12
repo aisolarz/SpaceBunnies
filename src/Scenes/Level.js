@@ -20,9 +20,10 @@ class Level extends Phaser.Scene {
     init(data) {
             this.level = data.level
         }
-    
 
     create() {
+
+
 
 
         // Create keys
@@ -105,6 +106,7 @@ class Level extends Phaser.Scene {
         // Start variables 
         this.bullets = [];
         this.enemyBullets = [];
+        this.enemyLasers = [];
         // Start level counter if it isn't already initialized
         if (this.level === undefined) {
             this.level = 1;
@@ -287,6 +289,7 @@ class Level extends Phaser.Scene {
     update(time, delta) {
         let dt = delta / 1000 // Convert delta from miliseconds to seconds
 
+
         // move stars
 
         for(let star of this.stars){
@@ -350,6 +353,22 @@ class Level extends Phaser.Scene {
                     enemy.takeDamage();
                     this.enemydefeatedSFX.play();
                     break;
+                }
+            }
+        }
+        
+        // Boss laser collision
+        for (let laser of this.enemyLasers) {
+            if (!laser.active || !laser.visible) continue;
+
+            if (this.player1) {
+                if (this.collides(this.player1, laser)) {
+                    this.damagePlayer(this.player1);
+                }
+            }
+            if (this.player2) {
+                if (this.collides(this.player2, laser)) {
+                    this.damagePlayer(this.player2);
                 }
             }
         }
@@ -417,16 +436,6 @@ class Level extends Phaser.Scene {
             }
         }
 
-        // Check if all enemies are defeated to end level
-        /*
-        if (this.enemies.length <= 0) {
-            this.scene.start("endScene", {
-                win: true,
-                level: this.level,
-                background: this.background
-            })
-        }
-            */
 
         //checks if the wave is cleared to move onto the next
         //checking if it spawns all of the enemies
@@ -509,10 +518,10 @@ class Level extends Phaser.Scene {
         //level 3
         if(this.level === 3 && waveNumber === 5){
 
-            let boss = new Enemy(this, 512, 150, 'spikeBall1.png', 100, 20, "normal");
+            let boss = new Enemy(this, 512, 150, 'spikeBall1.png', 100, 80, "figure8");
 
             boss.isBoss = true;
-            boss.setScale(0.5);
+            boss.setScale(1);
             boss.entering = false;
             boss.shootCooldown = 1;
             this.enemies.push(boss);

@@ -133,7 +133,7 @@ class Title extends Phaser.Scene {
             {
                 fontSize: "72px",
                 color: "#FFD6FF",
-                stroke: "#000000",
+                stroke: "#412319",
                 strokeThickness: 6,
                 align: "center"
             }

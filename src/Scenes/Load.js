@@ -24,6 +24,7 @@ class Load extends Phaser.Scene {
         this.load.audio('level3backgroundfinal', 'sound/level3backgroundfinal.mp3');
         this.load.audio('playerHurt', 'sound/playerHurt.ogg')
         this.load.audio('titlebackground', 'sound/titlebackground.mp3');
+        this.load.audio('powerUpSound', 'sound/powerUp.mp3')
         
 
 
@@ -38,6 +39,10 @@ class Load extends Phaser.Scene {
 
 
 
+
+        this.load.multiatlas(
+            "particles", "particles/kenny-particles.json", './assets/particles/'
+        )
 
         this.load.atlasXML(
             "jumper",
@@ -138,6 +143,17 @@ class Load extends Phaser.Scene {
             repeat: -1
         });
 
+        //boss animations
+        this.anims.create({
+            key: "boss",
+            frames: [
+                { key: "jumper", frame: "spikeBall1.png" },
+                { key: "jumper", frame: "spikeBall_2.png" },
+            ],
+            frameRate: 8,
+            repeat: -1,
+        });
+
         //player animations
         this.anims.create({
             key: 'player1Anims',
@@ -160,6 +176,7 @@ class Load extends Phaser.Scene {
             frameRate: 10,
             repeat: -1,
         });
+
 
         this.anims.create({
             key: "enemyExplosion",

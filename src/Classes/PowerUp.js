@@ -28,17 +28,55 @@ class PowerUp extends Phaser.GameObjects.Sprite {
             duration: 4000,
             onComplete: () => {this.destroy();}
         }); 
+
+
+
+        this.powerUpSound = this.scene.sound.add("powerUpSound", {
+            volume: 0.8
+        });
+
+
+        this.vfxCollect = scene.add.particles(200, 400, "particles", {
+            frame: 'star_07.png', // exact frame from the atlas
+            speed: {min: 300, max: 350}, 
+            lifespan: 300,
+            scale: {start: 0.1, end: 0},
+            alpha: {start: 1, end: 0.1},
+            blendMode: 'ADD', 
+            quantity: 8,
+            duration: 3,
+            emitting: false
+        });
         
     }
 
 
     collect(player) {
+
+        player.setTint(0x302818).setTintMode(Phaser.TintModes.ADD);
+        this.scene.time.delayedCall(100, () => {
+            if(player.active){
+                player.clearTint();
+            }
+        });
+
+        this.powerUpSound.play();
+        this.vfxCollect.setPosition(player.x, player.y)
+        this.vfxCollect.explode();
+
+
+
+        player.enableFilters();
+        let glow = player.filters.internal.addGlow(0xF0E4C6, 1.8, 0, 1, false, 50, 50) // args: color, outer strength, inner strength, scale, knockout, quality, distance
+        glow.setPaddingOverride(null);
+
         // life
         if (this.type === 1) {
             this.scene.teamLives += 1
             this.scene.livesText.setText(
                 "Lives: " + this.scene.teamLives
             );
+            player.filters.internal.remove(glow)
         }
 
         // wings
@@ -47,6 +85,8 @@ class PowerUp extends Phaser.GameObjects.Sprite {
 
             this.scene.time.delayedCall(this.length, () => {
                 player.playerSpeed -= this.speedChange;
+                player.filters.internal.remove(glow)
+
             });
         }
             
@@ -56,6 +96,7 @@ class PowerUp extends Phaser.GameObjects.Sprite {
             
             this.scene.time.delayedCall(this.length, () => {
                 player.shootCooldown += this.shootChange;
+                player.filters.internal.remove(glow)
             });
         }
 
