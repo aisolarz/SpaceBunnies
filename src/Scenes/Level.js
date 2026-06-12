@@ -518,7 +518,7 @@ class Level extends Phaser.Scene {
         //level 3
         if(this.level === 3 && waveNumber === 5){
 
-            let boss = new Enemy(this, 512, 150, 'spikeBall1.png', 100, 80, "figure8");
+            let boss = new Enemy(this, 512, 150, 'spikeBall1.png', 100, 99, "figure8");
 
             boss.isBoss = true;
             boss.setScale(1);
