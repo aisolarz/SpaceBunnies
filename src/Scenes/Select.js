@@ -7,9 +7,18 @@ class Select extends Phaser.Scene {
 
     create() {
 
+        //background music!
+        this.titlebackground = this.sound.add("titlebackground", {
+            volume: 0.5
+        });
+
+        this.titlebackground.play();
+
+        
+
         //create clicking sound
         this.clickSFX = this.sound.add("clickingSound", {
-            volume: 0.8
+            volume: 1
         });
 
         //create selecting sound
@@ -293,10 +302,12 @@ class Select extends Phaser.Scene {
 
                     //added
                     this.clickSFX.play();
-
+                    
+                    this.titlebackground.stop();
                 this.scene.start("levelScene", {
                     level: 1
                 })
+               
             }
 
             // if theres 2 players you make 2 selections with player one going first
@@ -326,7 +337,8 @@ class Select extends Phaser.Scene {
                         this.selectedCharacter;
 
                     this.clickSFX.play();
-
+                    
+                    this.titlebackground.stop();
                     this.scene.start("levelScene", {
                         level: 1
                     });

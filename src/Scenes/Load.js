@@ -19,9 +19,11 @@ class Load extends Phaser.Scene {
         this.load.audio('defeatedSound', 'sound/kenney_sci-fi-sounds/Audio/laserRetro_002.ogg');
         this.load.audio('levelSound', 'sound/kenney_sci-fi-sounds/Audio/spaceEngine_003.ogg');
         this.load.audio('playerdefeatedSound', 'sound/kenney_interface-sounds/Audio/minimize_006.ogg');
-        this.load.audio('level1background', 'sound/level1background.mp3');
-        this.load.audio('level3background', 'sound/level3background.mp3');
+        this.load.audio('level1background', 'sound/level1smoothmusic.mp3');
+         this.load.audio('level2background', 'sound/level2background.mp3');
+        this.load.audio('level3backgroundfinal', 'sound/level3backgroundfinal.mp3');
         this.load.audio('playerHurt', 'sound/playerHurt.ogg')
+        this.load.audio('titlebackground', 'sound/titlebackground.mp3');
         
 
 
@@ -184,11 +186,14 @@ class Load extends Phaser.Scene {
         );
         
         
-
+        
          this.scene.start("titleScene"); // Start next scene
+         
+         
 
          console.log(this.textures.exists("jumper"));
          this.scene.start("titleScene");
+         
     }
 
     // Never get here since a new scene is started in create()

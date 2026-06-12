@@ -34,19 +34,32 @@ class Level extends Phaser.Scene {
 
         //create enemy destroyed sound - sharon
         this.enemydefeatedSFX = this.sound.add("defeatedSound", {
-            volume: 0.1
+            volume: 0.5
         });
 
         //create player died sound - sharon
         this.playerdefeatedSFX = this.sound.add("playerdefeatedSound", {
-            volume: 2
+            volume: 2.5
         });
+
 
         //background music
         this.level1background = this.sound.add("level1background", {
             loop: true,
-            volume: 0.5
+            volume: 1
         });
+
+        this.level2background = this.sound.add("level2background", {
+            loop: true,
+            volume: 1
+        });
+
+        this.level3backgroundfinal = this.sound.add("level3backgroundfinal", {
+            loop: true,
+            volume: 1
+        });
+
+
 
         
 
@@ -193,12 +206,13 @@ class Level extends Phaser.Scene {
         }
         */
 
+        
         //creating waves
         if(this.level === 1){
-
+            
             this.level1background.play();
 
-            this.background = '#323a6e';
+            this.background = '#515c9e';
             this.cameras.main.setBackgroundColor(this.background);
 
             this.spawnWave(this.currentWave);
@@ -226,6 +240,8 @@ class Level extends Phaser.Scene {
 
         if (this.level === 2) {
 
+            this.level2background.play();
+
             this.background = '#293164';
             this.cameras.main.setBackgroundColor(this.background);
 
@@ -235,6 +251,28 @@ class Level extends Phaser.Scene {
             this.spawnWave(this.currentWave);
         }
 
+
+        //level 3
+
+        if(this.level === 3){
+
+            this.level3backgroundfinal.play();
+            
+            this.background = '#000000';
+            this.cameras.main.setBackgroundColor(this.background);
+
+            this.currentWave = 1;
+            this.maxWaves = 5;
+
+            this.spawnWave(this.currentWave);
+
+
+        }
+
+
+
+
+
         // ----------------------------------------------------------
             
     
@@ -243,14 +281,7 @@ class Level extends Phaser.Scene {
     }
 
 
-    /*
-    //how many lives it starts off with. Feel free to change it! - Sharon
-    initGame(data = {}){
-        //this.gameOver = false;    <-----Im going to leave this as a comment for now - Sharon
-        this.lives = 3;
-
-    }
-        */
+    
 
 
     update(time, delta) {
@@ -417,6 +448,8 @@ class Level extends Phaser.Scene {
             else{
 
                 this.level1background.stop();
+                this.level2background.stop();
+                this.level3backgroundfinal.stop();
 
                 this.scene.start("endScene", {
                     win: true,
@@ -450,6 +483,8 @@ class Level extends Phaser.Scene {
             //add sound dying
             this.playerdefeatedSFX.play();
             this.level1background.stop();
+            this.level2background.stop();
+            this.level3backgroundfinal.stop();
 
             this.scene.start("endScene", {
                 win: false,
@@ -752,11 +787,7 @@ class Level extends Phaser.Scene {
         }
     }
 
-    //End Game Function - Sharon
-    endGame(){
-
-
-    }
+    
 
     
     
