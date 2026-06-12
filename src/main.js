@@ -11,7 +11,7 @@ let config = {
     },
     width: 1024,
     height: 768,
-    scene: [Load, Title, Select, Level, End],
+    scene: [Load, Title, Select, Level, End, Win],
 
     scale: {
         mode: Phaser.Scale.FIT, // Makes it so screen will scale with window size
