@@ -25,6 +25,7 @@ class Load extends Phaser.Scene {
         this.load.audio('playerHurt', 'sound/playerHurt.ogg')
         this.load.audio('titlebackground', 'sound/titlebackground.mp3');
         this.load.audio('powerUpSound', 'sound/powerUp.mp3')
+        this.load.audio('winMusic', 'sound/winMusic.mp3')
         
 
 
@@ -152,6 +153,26 @@ class Load extends Phaser.Scene {
             ],
             frameRate: 8,
             repeat: -1,
+        });
+
+        this.anims.create({
+            key: 'player1Idle',
+            frames: [
+                { key: 'jumper', frame: 'bunny2_ready.png' },
+                { key: 'jumper', frame: 'bunny2_stand.png'}
+            ],
+            frameRate: 2,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: 'player2Idle',
+            frames: [
+                { key: 'jumper', frame: 'bunny1_ready.png' },
+                { key: 'jumper', frame: 'bunny1_stand.png'}
+            ],
+            frameRate: 2,
+            repeat: -1
         });
 
         //player animations

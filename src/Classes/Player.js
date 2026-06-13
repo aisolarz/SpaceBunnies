@@ -108,6 +108,13 @@ class Player extends Phaser.GameObjects.Sprite {
                 this.y - 40
             );
 
+            if (this.textureKey === 'player2_jetpack1') { // When player is brown bunny
+                bullet.damage = 2;
+            } 
+            else {
+                bullet.damage = 1;
+            }
+
             this.scene.bullets.push(bullet);
             this.shootTimer = this.shootCooldown;
         }

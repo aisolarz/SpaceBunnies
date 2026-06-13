@@ -26,6 +26,7 @@ class Level extends Phaser.Scene {
 
 
 
+
         // Create keys
         this.spaceKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
@@ -263,7 +264,7 @@ class Level extends Phaser.Scene {
             this.background = '#000000';
             this.cameras.main.setBackgroundColor(this.background);
 
-            this.currentWave = 1;
+            this.currentWave = 5; // TODO make 1
             this.maxWaves = 5;
 
             this.spawnWave(this.currentWave);
@@ -349,8 +350,12 @@ class Level extends Phaser.Scene {
                 if(!enemy.active) continue;
 
                 if(this.collides(enemy, bullet)) {
+
+                    let bulletDamage = bullet.damage || 1;
+
+                    
                     bullet.destroy();
-                    enemy.takeDamage();
+                    enemy.takeDamage(bulletDamage);
                     this.enemydefeatedSFX.play();
                     break;
                 }
@@ -518,13 +523,27 @@ class Level extends Phaser.Scene {
         //level 3
         if(this.level === 3 && waveNumber === 5){
 
-            let boss = new Enemy(this, 512, 150, 'spikeBall1.png', 100, 99, "figure8");
+            let boss = new Enemy(this, 512, -100, 'spikeBall1.png', 100, 100, "figure8"); // make health 99
+            if (gameSettings.numPlayers !== 1) {boss.health = 200}
 
             boss.isBoss = true;
             boss.setScale(1);
-            boss.entering = false;
+            boss.entering = true;
             boss.shootCooldown = 1;
             this.enemies.push(boss);
+
+            this.tweens.add({
+                targets: boss,
+                y: 150,
+                duration: 2000,
+                ease: 'Sine.easeOut',
+                onComplete: () => {
+                    boss.entering = false;
+                    boss.startX = boss.x
+                    boss.startY = boss.y
+
+                }
+            })
 
             //boss hp display
             this.bossHealthText = this.add.text(850, 20, "Boss HP: " + boss.health, {
