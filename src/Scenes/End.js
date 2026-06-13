@@ -96,8 +96,8 @@ class End extends Phaser.Scene {
                         this.player1.play('player1Anims');
                     }
                     if (gameSettings.player1Character === 'brown') {
-                        this.player2 = this.add.sprite(300, 300, 'player2_jetpack1').setScale(0.5)
-                        this.player2.play('player2Anims');
+                        this.player1 = this.add.sprite(300, 300, 'player2_jetpack1').setScale(0.5)
+                        this.player1.play('player2Anims');
                     }
 
                     this.tweens.add({
@@ -178,7 +178,7 @@ class End extends Phaser.Scene {
                 // Make boxes                                                                            
                 this.boxGroup['box0'] = new Box(this, 'box0', 'Sharie', 'aliens', 'shipPink_manned.png', "EEK! Another monster! ... You seem awfully fluffy for a monster...", "I'm a bunny", "BOO!", 'box1.1', 'box1.2', false,'0xC6E0F0')
                 this.boxGroup['box1.1'] = new Box(this, 'box1.1', 'Sharie', 'aliens', 'shipPink_manned.png', "I'm not sure what a bunny is... but you seem friendly. Please turn back while you can!", "Why turn back now?", "Leave me alone", 'box2.1', 'box2.2', false, '0xC6E0F0');
-                this.boxGroup['box2.2'] = new Box(this, 'box2.2', 'Sharie', 'aliens', 'shipPink_manned.png', "Well...please be careful.", null, null, null, null, true, false, '0xC6E0F0')
+                this.boxGroup['box2.2'] = new Box(this, 'box2.2', 'Sharie', 'aliens', 'shipPink_manned.png', "Well...please be careful.", null, null, null, true, '0xC6E0F0')
                 this.boxGroup['box2.1'] = new Box(this, 'box2.1', 'Sharie', 'aliens', 'shipPink_manned.png', "The monsters' evil boss is just beyond this point! He's covered in spikes and shoots lasers! I'm way too scared to fly any deeper...", "Any tips on beating him?", "Stop talking already!", 'box3', 'box4', false, '0xC6E0F0')
                 this.boxGroup['box1.2'] = new Box(this, 'box1.2', 'Sharie', 'aliens', 'shipPink_manned.png', "EEK!! HELP! You must be working for that EVIL alien! STAY AWAY!", "If you say so", null, null, null, true, '0xC6E0F0')
                 this.boxGroup['box3'] = new Box(this, 'box3', 'Sharie', 'aliens', 'shipPink_manned.png', "Pay attention to what color the boss monster glows when he's about to attack! Maybe it'll give you clues on how he will attack!", "Thanks!", null, null, null, true, '0xC6E0F0')
