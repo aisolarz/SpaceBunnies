@@ -25,7 +25,7 @@ class Win extends Phaser.Scene {
 
         this.winMusic = this.sound.add("winMusic", {
             loop: true,
-            volume: 0.5
+            volume: 0.45
         });
 
         this.winMusic.play()
@@ -94,7 +94,7 @@ class Win extends Phaser.Scene {
                 this.tweens.add({
                     targets: this.player2,
                     y: this.floorY,
-                    duration: 3600,
+                    duration: 3700,
                     ease: 'Cubic.easeOut',
                     onComplete: () => {
                         if (gameSettings.player2Character === 'purple') {this.player2.play('player1Idle')}

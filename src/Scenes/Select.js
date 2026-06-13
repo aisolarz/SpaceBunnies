@@ -305,7 +305,7 @@ class Select extends Phaser.Scene {
                     
                     this.titlebackground.stop();
                 this.scene.start("levelScene", {
-                    level: 3 // TODO change this to 1
+                    level: 1 
                 })
                
             }

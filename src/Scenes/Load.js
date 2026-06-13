@@ -38,6 +38,8 @@ class Load extends Phaser.Scene {
         this.load.image('player2_jetpack1', 'bunny1/bunny2_jetpack1.png');
         this.load.image('player2_jetpack2', 'bunny1/bunny2_jetpack2.png');
 
+        this.load.image('powerup_carrot', 'powerup_carrot.png')
+
 
 
 

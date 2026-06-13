@@ -264,7 +264,7 @@ class Level extends Phaser.Scene {
             this.background = '#000000';
             this.cameras.main.setBackgroundColor(this.background);
 
-            this.currentWave = 5; // TODO make 1
+            this.currentWave = 1; 
             this.maxWaves = 5;
 
             this.spawnWave(this.currentWave);
@@ -523,8 +523,8 @@ class Level extends Phaser.Scene {
         //level 3
         if(this.level === 3 && waveNumber === 5){
 
-            let boss = new Enemy(this, 512, -100, 'spikeBall1.png', 100, 100, "figure8"); // make health 99
-            if (gameSettings.numPlayers !== 1) {boss.health = 200}
+            let boss = new Enemy(this, 512, -100, 'spikeBall1.png', 100, 80, "figure8"); // make health 99
+            if (gameSettings.numPlayers !== 1) {boss.health = 150}
 
             boss.isBoss = true;
             boss.setScale(1);

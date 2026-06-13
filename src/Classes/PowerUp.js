@@ -14,11 +14,11 @@ class PowerUp extends Phaser.GameObjects.Sprite {
         this.type = type;
         this.velocity = 100
         scene.add.existing(this);
-        this.setScale(0.6);
+        this.setScale(0.8);
 
         if (this.type === 1) {this.setFrame("powerup_bunny.png")}
-        if (this.type === 2) {this.setFrame("powerup_wings.png")}
-        if (this.type === 3) {this.setFrame("powerup_empty.png")}
+        if (this.type === 2) {this.setFrame("powerup_jetpack.png")}
+        if (this.type === 3) {this.setTexture("powerup_carrot")}
 
 
         
