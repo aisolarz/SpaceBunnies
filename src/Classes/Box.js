@@ -200,8 +200,8 @@ class Box extends Phaser.GameObjects.Sprite {
            
             
             else if (Phaser.Input.Keyboard.JustDown(this.spaceKey)) {
-                this.destroyBox()
-               
+                this.clickSFX.play();
+                this.nextBox()
             }
 
 
