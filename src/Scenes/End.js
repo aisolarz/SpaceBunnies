@@ -156,7 +156,7 @@ class End extends Phaser.Scene {
                 
 
                 // Make boxes
-                this.boxGroup['box0'] = new Box(this, 'box0', 'Kenney', 'aliens', 'shipGreen_manned.png', "Thank you for defeating those monsters! What's a bunny doing in space?", "I'm here to save you!'", "None of your business", 'box1.1', 'box1.2')
+                this.boxGroup['box0'] = new Box(this, 'box0', 'Kenney', 'aliens', 'shipGreen_manned.png', "Thank you for defeating those monsters! What's a bunny doing in space?", "I'm here to save you!", "None of your business", 'box1.1', 'box1.2')
                 this.boxGroup['box1.1'] = new Box(this, 'box1.1', 'Kenney', 'aliens', 'shipGreen_manned.png', "Thank you for helping us! But please stay safe! The monsters get more powerful as you go deeper into space. I hear a powerful boss monster waits even further beyond.", "I'll be careful", null, null, null, true)
                 this.boxGroup['box1.2'] = new Box(this, 'box1.2', 'Kenney', 'aliens', 'shipGreen_manned.png', "I'm sorry! I didn't mean to intrude.", "Sure", null, null, null, true)
 
