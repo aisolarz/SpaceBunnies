@@ -19,6 +19,25 @@ class End extends Phaser.Scene {
         this.boxGroup = {};
         this.dialogueFinished = false;
 
+        // starfield background
+        this.stars = [];
+
+        for(let i = 0; i < 80; i++){
+
+            let star = this.add.circle(
+                Phaser.Math.Between(0, 1024),
+                Phaser.Math.Between(0, 768),
+                Phaser.Math.Between(1, 3),
+                0xffffff
+            );
+
+            star.speed = Phaser.Math.Between(40, 120);
+
+            star.setDepth(-100);
+
+            this.stars.push(star);
+        }
+
 
         //Sound when level complete
         this.levelmusicSFX = this.sound.add("levelSound", {
@@ -298,6 +317,20 @@ class End extends Phaser.Scene {
     
 
     update(time, delta) {
+
+        let dt = delta / 1000;
+
+        // move stars
+        for(let star of this.stars){
+
+            star.y += star.speed * dt;
+
+            if(star.y > 768){
+
+                star.y = 0;
+                star.x = Phaser.Math.Between(0, 1024);
+            }
+        }
 
         for (const key in this.boxGroup) {
             this.boxGroup[key].update(time, delta)
